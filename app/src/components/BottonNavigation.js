@@ -25,7 +25,6 @@ class BottomNavigationExampleSimple extends Component {
     constructor(props) {
         super(props);
         this.handleOpen = this.handleOpen.bind(this)
-
         // this.state = { open: false };
     }
 

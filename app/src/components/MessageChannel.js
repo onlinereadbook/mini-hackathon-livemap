@@ -5,7 +5,6 @@ import RaisedButton from 'material-ui/RaisedButton';
 import MarkerList from '../components/MarkerList'
 import FontIcon from 'material-ui/FontIcon';
 import SvgIcon from 'material-ui/SvgIcon';
-
 import { blue500, red500, greenA200 } from 'material-ui/styles/colors';
 import TextField from 'material-ui/TextField';
 import IconButton from 'material-ui/IconButton';

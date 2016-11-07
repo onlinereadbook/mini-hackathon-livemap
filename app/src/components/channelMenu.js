@@ -42,7 +42,7 @@ const HomeIcon = (props) => (
     </SvgIcon>
 );
 
-export default class DrawerOpenRightExample extends React.Component {
+export default class ChannelMenu extends React.Component {
 
     constructor(props) {
         super(props);
@@ -67,24 +67,19 @@ export default class DrawerOpenRightExample extends React.Component {
             <div>
                 <Drawer width={300} openSecondary={true} open={this.props.open} >
                     <div>
-                        <List>
-                            <ListItem primaryText="創建一個新的頻道" leftIcon={<ContentInbox />} />
-                            <TextField hintText="請輸入訊息" style={textStyles} />
-                            <RaisedButton label="送出" style={buttonStyles} />
-                        </List>
 
                         <List>
-                            <ListItem primaryText="我創建的頻道" leftIcon={<ContentInbox />} />
-                            <ListItem primaryText="我最愛的頻道" leftIcon={<ActionGrade />} />
-                            <ListItem primaryText="私訊未讀訊息" leftIcon={<ContentInbox />} />
+                            <ListItem primaryText="團購動物頻道" leftIcon={<ContentInbox />} />
+                            <ListItem primaryText="啾單車頻道" leftIcon={<ActionGrade />} />
+                            <ListItem primaryText="一起吃晚餐" leftIcon={<ContentInbox />} />
                         </List>
                         <Divider />
                         <List>
-                            <ListItem primaryText="所有頻道" rightIcon={<ActionInfo />}
+                            <ListItem primaryText="一起打球吧" rightIcon={<ActionInfo />}
                                 onTouchTap={this.handleChannel}
                                 />
-                            <ListItem primaryText="設定喜歡頻道" rightIcon={<ActionInfo />} />
-                            <ListItem primaryText="追蹤人物" rightIcon={<ActionInfo />} />
+                            <ListItem primaryText="我要去爬山" rightIcon={<ActionInfo />} />
+                            <ListItem primaryText="我要一起寫遊戲" rightIcon={<ActionInfo />} />
                         </List>
                     </div>
                 </Drawer>

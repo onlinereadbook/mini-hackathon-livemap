@@ -15,6 +15,8 @@ import Paper from 'material-ui/Paper';
 import IconLocationOn from 'material-ui/svg-icons/communication/location-on';
 
 import Menu from '../components/Menu'
+import ChannelMenu from '../components/ChannelMenu'
+
 import Dialog from '../components/Dialog'
 import BadgeExampleSimple from '../components/IconButton'
 
@@ -80,6 +82,7 @@ const zoom = 12
 class App extends Component {
     constructor(props) {
         super(props)
+        //  console.log(props);
         this.addMarker = this.addMarker.bind(this)
         this.setMapCenter = this.setMapCenter.bind(this)
 
@@ -90,21 +93,39 @@ class App extends Component {
                 zoom: zoom
             },
             open: false,
+            channelopen: false,
             isLogin: false,
             watchId: 0,
             userData: {}
         }
 
-        this.handleOpen = this.handleOpen.bind(this)
+        this.handleOpen = this.handleOpen.bind(this)   // 第一層選單
+        this.handleOpenChannel = this.handleOpenChannel.bind(this) //頻道選單
+        this.handleOpenTalk = this.handleOpenTalk.bind(this) //聊天頻道選單
+
     }
 
     handleOpen() {
+        this.setState({ channelopen: false })
+
         if (this.state.open == false) {
             this.setState({ open: true })
         } else {
             this.setState({ open: false })
         }
     }
+
+    handleOpenChannel() {
+        // if (this.state.open == false) {
+        //     this.setState({ open: true })
+        // } else {
+        this.setState({ open: false })
+        this.setState({ channelopen: true })
+
+        //}
+        console.log('openchannel');
+    }
+
 
     render() {
         const { dispatch, markers} = this.props
@@ -130,7 +151,9 @@ class App extends Component {
                 </div>
 
                 <div style={style.login}>
-                    <Menu open={this.state.open} markers={markers} setMapCenter={this.setMapCenter} />
+                    <Menu open={this.state.open} markers={markers} setMapCenter={this.setMapCenter} handleOpenChannel={this.handleOpenChannel} />
+                    <ChannelMenu open={this.state.channelopen} />
+
                     <Dialog />
                     <Login
                         isLogin={this.state.isLogin}
