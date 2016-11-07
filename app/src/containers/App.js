@@ -204,14 +204,14 @@ class App extends Component {
     }
 
 fbLogin(response) {
-    debugger
     if (response.status) return;
 
     const userData = {
         text: response.name,
         photo: response.picture.data.url,
         userId: response.id,
-        role: 'FB'
+        role: 'FB',
+        message: `大家好，我是${response.name}！`
     }
 
     this.watchPosition(userData)
@@ -226,7 +226,8 @@ guestLogin() {
         text: '訪客',
         photo: 'https://goo.gl/6dcw3S',
         userId: new Date().getTime(),
-        role: 'GUEST'
+        role: 'GUEST',
+        message: '大家好，我是訪客！'
     }
 
     this.watchPosition(userData)
