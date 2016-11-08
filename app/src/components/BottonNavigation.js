@@ -44,17 +44,17 @@ class BottomNavigationExampleSimple extends Component {
             <Paper zDepth={1}>
                 <BottomNavigation selectedIndex={this.state.selectedIndex}>
                     <BottomNavigationItem
-                        label="face"
+                        label="個人資料"
                         icon={faceIcon}
                         onTouchTap={() => this.select(0)}
                         />
                     <BottomNavigationItem
-                        label="home"
+                        label="回首頁"
                         icon={homeIcon}
                         onTouchTap={() => this.select(1)}
                         />
                     <BottomNavigationItem
-                        label="room"
+                        label="頻道"
                         icon={nearbyIcon}
                         onTouchTap={() => { this.handleOpen() } }
 

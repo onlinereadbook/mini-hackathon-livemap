@@ -41,7 +41,7 @@ const HomeIcon = (props) => (
     </SvgIcon>
 );
 
-export default class DrawerOpenRightExample extends React.Component {
+export default class MessageChannel extends React.Component {
 
     constructor(props) {
         super(props);
@@ -67,24 +67,17 @@ export default class DrawerOpenRightExample extends React.Component {
                 <Drawer width={300} openSecondary={true} open={this.props.open} >
                     <div>
                         <List>
-                            <ListItem primaryText="創建一個新的頻道" leftIcon={<ContentInbox />} />
+                            <ListItem primaryText="聊天頻道" leftIcon={<ContentInbox />} />
                             <TextField hintText="請輸入訊息" style={textStyles} />
                             <RaisedButton label="送出" style={buttonStyles} />
                         </List>
-
-                        <List>
-                            <ListItem primaryText="我創建的頻道" leftIcon={<ContentInbox />} />
-                            <ListItem primaryText="我最愛的頻道" leftIcon={<ActionGrade />} />
-                            <ListItem primaryText="私訊未讀訊息" leftIcon={<ContentInbox />} />
-                        </List>
                         <Divider />
                         <List>
-                            <ListItem primaryText="所有頻道" rightIcon={<ActionInfo />}
-                                onTouchTap={this.handleChannel}
-                                />
-                            <ListItem primaryText="設定喜歡頻道" rightIcon={<ActionInfo />} />
-                            <ListItem primaryText="追蹤人物" rightIcon={<ActionInfo />} />
+                            <ListItem primaryText="訊息" leftIcon={<ContentInbox />} />
+
                         </List>
+
+
                     </div>
                 </Drawer>
 

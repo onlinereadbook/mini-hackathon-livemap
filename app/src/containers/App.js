@@ -16,6 +16,9 @@ import IconLocationOn from 'material-ui/svg-icons/communication/location-on';
 
 import Menu from '../components/Menu'
 import ChannelMenu from '../components/ChannelMenu'
+import MessageChannel from '../components/MessageChannel'
+
+
 
 import Dialog from '../components/Dialog'
 import BadgeExampleSimple from '../components/IconButton'
@@ -94,6 +97,7 @@ class App extends Component {
             },
             open: false,
             channelopen: false,
+            messageopen: false,
             isLogin: false,
             watchId: 0,
             userData: {}
@@ -101,12 +105,18 @@ class App extends Component {
 
         this.handleOpen = this.handleOpen.bind(this)   // 第一層選單
         this.handleOpenChannel = this.handleOpenChannel.bind(this) //頻道選單
-        this.handleOpenTalk = this.handleOpenTalk.bind(this) //聊天頻道選單
+        this.handleOpenMessage = this.handleOpenMessage.bind(this) //聊天頻道選單
 
+    }
+
+    handleOpenMessage() {
+        this.setState({ channelopen: false })
+        this.setState({ messageopen: true })
     }
 
     handleOpen() {
         this.setState({ channelopen: false })
+        this.setState({ messageopen: false })
 
         if (this.state.open == false) {
             this.setState({ open: true })
@@ -152,7 +162,8 @@ class App extends Component {
 
                 <div style={style.login}>
                     <Menu open={this.state.open} markers={markers} setMapCenter={this.setMapCenter} handleOpenChannel={this.handleOpenChannel} />
-                    <ChannelMenu open={this.state.channelopen} />
+                    <ChannelMenu open={this.state.channelopen} handleOpenMessage={this.handleOpenMessage} />
+                    <MessageChannel open={this.state.messageopen} />
 
                     <Dialog />
                     <Login

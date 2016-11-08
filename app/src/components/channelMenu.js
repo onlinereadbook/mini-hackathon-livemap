@@ -49,12 +49,12 @@ export default class ChannelMenu extends React.Component {
         console.log(props);
 
         //this.state = { open: true };
-        this.handleChannel = this.handleChannel.bind(this);
+        this.handleMessage = this.handleMessage.bind(this);
     }
 
 
-    handleChannel() {
-        this.props.handleOpenChannel();
+    handleMessage() {
+        this.props.handleOpenMessage();
         //this.props.open = false;
         console.log('handleChannel');
 
@@ -69,7 +69,7 @@ export default class ChannelMenu extends React.Component {
                     <div>
 
                         <List>
-                            <ListItem primaryText="團購動物頻道" leftIcon={<ContentInbox />} />
+                            <ListItem primaryText="團購動物頻道" leftIcon={<ContentInbox />} onTouchTap={this.handleMessage} />
                             <ListItem primaryText="啾單車頻道" leftIcon={<ActionGrade />} />
                             <ListItem primaryText="一起吃晚餐" leftIcon={<ContentInbox />} />
                         </List>
