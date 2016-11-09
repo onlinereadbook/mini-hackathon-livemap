@@ -20,7 +20,6 @@ router.post('/', (req, res, next) => {
         MongoDBManager.findOne('users', {
             socket_id: query.socket_id
         }).then(user => {
-            console.log(user);
             if(user){
                 const error = new Error('使用者已存在');
                 error.status = 404;
