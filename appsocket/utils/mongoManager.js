@@ -1,29 +1,53 @@
+/**
+ * @flow
+ */
+import * as config from '../config';
+
 var mongo = require('mongoskin');
-var db = mongo.db("mongodb://localhost:27017/integration_tests", {native_parser:true});
-db.bind('article');
-db.article.find().toArray(function(err, items) {
-        db.close();
-});
 
 class MongoDBManager {
     constructor(host: string, port: string, dbName: string, ...options){
         options.native_parser = true;
+        this.host = host;
+        this.port = port;
+        this.dbName = dbName;
 
         this.db = mongo.db(`mongodb://${host}:${port}/${dbName}`, options);
 
     }
 
     setCollection(name: string){
-        this.db.bind(name); 
+        return this.db.bind(name); 
     }
 
     insert(collection: string, query: ? object, ...options): Promise<Object>{
-        return this.db[collection].insert(query, options);
+        return new Promise((resolve, reject) => {
+            this.setCollection(collection);
+            this.db[collection].insert(query, options, (err, result) => {
+                if(err){
+                    reject(err);
+                }else{
+                    resolve(result);
+                }
+            });
+        });
     }
 
-    findOne(collection: string, query, ...options){
-
+    findOne(collection: string, query: Object, options: Object): Promise<Object>{
+        return new Promise((resolve, reject) => {
+            this.setCollection(collection);
+            this.db[collection].findOne(query, options, (err, item) => {
+                console.log(err, item);
+                if(err){
+                    reject(err);
+                }else{
+                    resolve(item);
+                }
+            });
+        });
     }
 }
 
-export default new MongoDBManager();
+const manager = new MongoDBManager(config.host, config.port, config.dbName);
+
+export default manager;

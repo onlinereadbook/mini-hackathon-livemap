@@ -7,18 +7,24 @@ import MongoDBManager from '../utils/mongoManager';
 
 const router = express.Router();
 
+router.get('/', (req, res) => {
+    res.json({"state": 222});
+});
+
 router.post('/', (req, res, next) => {
     const query = _.pick(req.body, 'socket_id', 'nickname', 'logo');
+
     if(!query.socket_id){
         next(new Error('Socket ID 不可為空'));
     }else{
         MongoDBManager.findOne('users', {
-            socket_id: req.body.socket_id
+            socket_id: query.socket_id
         }).then(user => {
+            console.log(user);
             if(user){
                 const error = new Error('使用者已存在');
                 error.status = 404;
-                next(error);
+                throw(error);
             }else{
                 return MongoDBManager.insert('users', query);
             }

@@ -4,7 +4,11 @@
 import Express from 'express';
 import httpModule from 'http';
 import socketIO from 'socket.io';
+import cors from 'cors';
+import multipartyMiddleware from 'connect-multiparty';
+import bodyParser from 'body-parser';
 import _ from 'lodash';
+import logger from 'morgan';
 import routers from './routers';
 
 const randomstring = require("randomstring");
@@ -12,6 +16,15 @@ const randomstring = require("randomstring");
 const app = Express();
 const http = httpModule.Server(app);
 const io = socketIO(http);
+
+if(process.env.DEV === 'true'){
+    app.use(logger('dev'));
+}
+
+app.use(bodyParser.urlencoded());
+app.use(multipartyMiddleware());
+app.use(bodyParser.json())
+
 
 app.use('/rooms', routers.rooms);
 app.use('/users', routers.users);
@@ -201,10 +214,11 @@ io.on('connection', function (socket) {
 });
 
 //Error Handler
-app.use((req, res, next) => {
-  var err = new Error('Not Found');
-  err.status = 404;
-  next(err);
+app.use((error, req, res, next) => {
+    const status = error.status || 500;
+    res.status(status).json({
+        message: error.message
+    });
 });
 
 
