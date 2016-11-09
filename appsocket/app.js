@@ -1,7 +1,12 @@
-import Express from 'express';
-import httpModule from 'http';
-import socketIO from 'socket.io';
-import _ from 'lodash';
+// import Express from 'express';
+// import httpModule from 'http';
+// import socketIO from 'socket.io';
+// import _ from 'lodash';
+
+const Express = require('express');
+const httpModule = require('http');
+const socketIO = require('socket.io');
+const _ = require('lodash');
 
 const randomstring = require("randomstring");
 
@@ -13,7 +18,7 @@ app.get('/', function (req, res) {
     res.sendFile(__dirname + '/index.html');
 });
 
-function DisconnectRoom(rooms: Array, socket: Object) {
+function DisconnectRoom(rooms, socket) {
     const roomId = socket.id;
 
     let targetRoom = _.find(rooms, (room) => {
@@ -22,7 +27,7 @@ function DisconnectRoom(rooms: Array, socket: Object) {
     socket.leave(targetRoom.id);
 }
 
-function checkRoomId(rooms: Array, roomId: string) {
+function checkRoomId(rooms, roomId) {
     let checkReq = _.isUndefined(roomId) || _.isEmpty(roomId),
         resp = {
             error: null,
@@ -52,7 +57,7 @@ function checkRoomId(rooms: Array, roomId: string) {
 }
 
 class roomClass {
-    constructor(params: object) {
+    constructor(params) {
 
         this._MAX = 8;
         this._ID = params.id;
