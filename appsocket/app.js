@@ -1,13 +1,20 @@
+/**
+ * @flow
+ */
 import Express from 'express';
 import httpModule from 'http';
 import socketIO from 'socket.io';
 import _ from 'lodash';
+import routers from './routers';
 
 const randomstring = require("randomstring");
 
 const app = Express();
 const http = httpModule.Server(app);
 const io = socketIO(http);
+
+app.use('/rooms', routers.rooms);
+app.use('/users', routers.users);
 
 app.get('/', function (req, res) {
     res.sendFile(__dirname + '/index.html');
@@ -192,6 +199,15 @@ io.on('connection', function (socket) {
 
 
 });
+
+//Error Handler
+app.use((req, res, next) => {
+  var err = new Error('Not Found');
+  err.status = 404;
+  next(err);
+});
+
+
 
 //指定port
 http.listen(process.env.PORT || 3000, function () {
