@@ -7,6 +7,7 @@
     "dev": "webpack-dev-server --config webpack-dev-server.config.js --port 8888 --hot --devtool eval --progress --colors --content-base app ",
     "deploy": "webpack -p --config webpack-deploy.config.js --progress --colors",
     "start": "babel-node ./appsocket/app.js",
+    "dev": "nodemon ./appsocket/app.js --exec babel-node",
     "flow": "flow; test $? -eq 0 -o $? -eq 2"
   },
   "keywords": [],
