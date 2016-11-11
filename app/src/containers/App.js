@@ -17,6 +17,7 @@ import IconLocationOn from 'material-ui/svg-icons/communication/location-on';
 import Menu from '../components/Menu'
 import ChannelMenu from '../components/ChannelMenu'
 import MessageChannel from '../components/MessageChannel'
+import ProfileMenu from '../components/ProfileMenu'
 
 
 
@@ -98,14 +99,17 @@ class App extends Component {
             open: false,
             channelopen: false,
             messageopen: false,
+            profileopen: false,
             isLogin: false,
             watchId: 0,
             userData: {}
         }
 
+
         this.handleOpen = this.handleOpen.bind(this)   // 第一層選單
         this.handleOpenChannel = this.handleOpenChannel.bind(this) //頻道選單
         this.handleOpenMessage = this.handleOpenMessage.bind(this) //聊天頻道選單
+        this.handleProfile = this.handleProfile.bind(this)   // 第一層選單
 
     }
 
@@ -114,8 +118,22 @@ class App extends Component {
         this.setState({ messageopen: true })
     }
 
-    handleOpen() {
+    handleProfile() {
+        //    console.log('test');
+        this.setState({ open: false })
         this.setState({ channelopen: false })
+        this.setState({ messageopen: false })
+
+        if (this.state.profileopen == false) {
+            this.setState({ profileopen: true })
+        } else {
+            this.setState({ profileopen: false })
+        }
+    }
+
+
+    handleOpen() {
+        this.setState({ open: true })
         this.setState({ messageopen: false })
 
         if (this.state.open == false) {
@@ -156,7 +174,7 @@ class App extends Component {
                     <BadgeExampleSimple></BadgeExampleSimple>
                 </div>
                 <div style={style.ButtonNavigation}>
-                    <BottomNavigationExampleSimple handleOpen={this.handleOpen}></BottomNavigationExampleSimple >
+                    <BottomNavigationExampleSimple handleOpen={this.handleOpen} handleProfile={this.handleProfile} ></BottomNavigationExampleSimple >
 
                 </div>
 
@@ -164,6 +182,7 @@ class App extends Component {
                     <Menu open={this.state.open} markers={markers} setMapCenter={this.setMapCenter} handleOpenChannel={this.handleOpenChannel} />
                     <ChannelMenu open={this.state.channelopen} handleOpenMessage={this.handleOpenMessage} />
                     <MessageChannel open={this.state.messageopen} />
+                    <ProfileMenu open={this.state.profileopen} handleProfile={this.handleProfile} />
 
                     <Dialog />
                     <Login
@@ -173,6 +192,9 @@ class App extends Component {
                         logout={this.logout.bind(this)}
                         />
                 </div>
+
+
+
             </div >
         )
     }
@@ -225,16 +247,16 @@ class App extends Component {
                     markerAction.setLocation(userData.userId, location)
                 } else {
                     markerAction.addMarker({
-                        position: location,
-                        ...userData
+                        ...userDat,
+                        position: location
                     })
 
             this.setMapCenter(location)
         }
     })
-            
+
             this.setState({ watchId })
-        }   
+        }
     }
 
 fbLogin(response) {

@@ -5,6 +5,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 import MarkerList from '../components/MarkerList'
 import FontIcon from 'material-ui/FontIcon';
 import SvgIcon from 'material-ui/SvgIcon';
+
 import { blue500, red500, greenA200 } from 'material-ui/styles/colors';
 import TextField from 'material-ui/TextField';
 import IconButton from 'material-ui/IconButton';
@@ -41,19 +42,19 @@ const HomeIcon = (props) => (
     </SvgIcon>
 );
 
-export default class MessageChannel extends React.Component {
+export default class ChannelMenu extends React.Component {
 
     constructor(props) {
         super(props);
         console.log(props);
 
         //this.state = { open: true };
-        this.handleChannel = this.handleChannel.bind(this);
+        this.handleMessage = this.handleMessage.bind(this);
     }
 
 
-    handleChannel() {
-        this.props.handleOpenChannel();
+    handleMessage() {
+        this.props.handleOpenMessage();
         //this.props.open = false;
         console.log('handleChannel');
 
@@ -66,17 +67,20 @@ export default class MessageChannel extends React.Component {
             <div>
                 <Drawer width={300} openSecondary={true} open={this.props.open} >
                     <div>
-                        <List>
-                            <ListItem primaryText="個人訊息" leftIcon={<ContentInbox />} />
 
+                        <List>
+                            <ListItem primaryText="團購動物頻道" leftIcon={<ContentInbox />} onTouchTap={this.handleMessage} />
+                            <ListItem primaryText="啾單車頻道" leftIcon={<ActionGrade />} />
+                            <ListItem primaryText="一起吃晚餐" leftIcon={<ContentInbox />} />
                         </List>
                         <Divider />
                         <List>
-
-
+                            <ListItem primaryText="一起打球吧" rightIcon={<ActionInfo />}
+                                onTouchTap={this.handleChannel}
+                                />
+                            <ListItem primaryText="我要去爬山" rightIcon={<ActionInfo />} />
+                            <ListItem primaryText="我要一起寫遊戲" rightIcon={<ActionInfo />} />
                         </List>
-
-
                     </div>
                 </Drawer>
 

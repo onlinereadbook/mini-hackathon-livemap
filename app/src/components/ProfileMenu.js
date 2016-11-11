@@ -16,6 +16,7 @@ import ContentDrafts from 'material-ui/svg-icons/content/drafts';
 import Divider from 'material-ui/Divider';
 import ActionInfo from 'material-ui/svg-icons/action/info';
 
+import CardProfile from '../components/CardProfile'
 
 const iconStyles = {
     marginRight: 24,
@@ -31,6 +32,10 @@ const textStyles = {
     textAlign: 'center'
 
 };
+const menuStyles = {
+    width: (screen.width * 0.8)
+}
+
 const buttonStyles = {
 
 
@@ -64,7 +69,9 @@ export default class MessageChannel extends React.Component {
     render() {
         return (
             <div>
-                <Drawer width={300} openSecondary={true} open={this.props.open} >
+                <Drawer width={menuStyles.width} openSecondary={true} open={this.props.open}
+                    >
+
                     <div>
                         <List>
                             <ListItem primaryText="個人訊息" leftIcon={<ContentInbox />} />
@@ -72,17 +79,14 @@ export default class MessageChannel extends React.Component {
                         </List>
                         <Divider />
                         <List>
-
-
+                            <CardProfile handleProfile={this.props.handleProfile}></CardProfile>
                         </List>
-
-
                     </div>
                 </Drawer>
 
 
 
-            </div>
+            </div >
         );
     }
 }

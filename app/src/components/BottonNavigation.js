@@ -25,6 +25,8 @@ class BottomNavigationExampleSimple extends Component {
     constructor(props) {
         super(props);
         this.handleOpen = this.handleOpen.bind(this)
+        this.handleProfile = this.handleProfile.bind(this)
+
         // this.state = { open: false };
     }
 
@@ -32,6 +34,10 @@ class BottomNavigationExampleSimple extends Component {
     handleOpen() {
         this.props.handleOpen();
     };
+    handleProfile() {
+        // console.log('test');
+        this.props.handleProfile();
+    }
 
     handleClose = () => {
         this.setState({ open: false });
@@ -46,7 +52,7 @@ class BottomNavigationExampleSimple extends Component {
                     <BottomNavigationItem
                         label="個人資料"
                         icon={faceIcon}
-                        onTouchTap={() => this.select(0)}
+                        onTouchTap={() => { this.handleProfile() } }
                         />
                     <BottomNavigationItem
                         label="回首頁"
