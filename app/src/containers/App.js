@@ -22,7 +22,7 @@ import Dialog from '../components/Dialog'
 import BadgeExampleSimple from '../components/IconButton'
 
 var socket = io('http://localhost:3000');
-
+console.log(socket);
 var name = prompt("請輸入暱稱", "guest");
 if (name == "" || name == null) {
     name = "guest";
