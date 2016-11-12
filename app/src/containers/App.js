@@ -18,11 +18,80 @@ import Menu from '../components/Menu'
 import ChannelMenu from '../components/ChannelMenu'
 import MessageChannel from '../components/MessageChannel'
 import ProfileMenu from '../components/ProfileMenu'
-
-
-
 import Dialog from '../components/Dialog'
 import BadgeExampleSimple from '../components/IconButton'
+
+var socket = io('http://localhost:3000');
+
+var name = prompt("請輸入暱稱", "guest");
+if (name == "" || name == null) {
+    name = "guest";
+}
+socket.emit('createroom', {});
+//加入房間
+setTimeout(function () {
+    socket.emit('joinroom', {
+        roomId: roomId
+    });
+}, 1000);
+//發送區域性訊息
+setTimeout(function () {
+    socket.emit('localmessage', {
+        roomId: roomId,
+        params: {
+            message: '這是區域訊息'
+        },
+    });
+}, 1200);
+
+//發送區域性訊息
+setTimeout(function () {
+    socket.emit('globalmessage', {
+        roomId: roomId,
+        params: {
+            message: '這是全域訊息'
+        },
+    });
+}, 1400);
+//離開房間
+setTimeout(function () {
+    socket.emit('leaveroom', {
+        roomId: roomId
+    });
+}, 2000);
+//tell server
+socket.emit("add user", name);
+//監聽新訊息事件
+socket.on('success', function (resp) {
+    if (resp.roomId) {
+        roomId = resp.roomId;
+    }
+    appendMessage(resp.message);
+});
+socket.on('localmessage', function (data) {
+    appendMessage('LocalMessage:' + JSON.stringify(data));
+});
+socket.on('globalmessage', function (data) {
+    appendMessage('GlobalMessage:' + JSON.stringify(data));
+});
+socket.on('getuid', function (data) {
+    if (data.uid !== undefined) {
+        uid = data.uid;
+        appendMessage("UID: " + data.uid);
+    }
+});
+socket.on('chat message', function (data) {
+    appendMessage(data.username + ":" + data.msg);
+});
+socket.on('add user', function (data) {
+    appendMessage(data.username + "已加入");
+});
+socket.on('user left', function (data) {
+    appendMessage(data.username + "已離開");
+});
+
+
+
 
 const style = {
     container: {
