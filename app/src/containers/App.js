@@ -1,7 +1,8 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
-import * as markerAction from '../actions/markerAction'
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import * as markerAction from '../actions/markerAction';
+import * as messageAction from '../actions/messageAction';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import ContentAdd from 'material-ui/svg-icons/content/add';
 
@@ -29,8 +30,6 @@ var socket = io('http://localhost:3000');
 // var roomId = '';
 // socket.emit('createroom', {});
 var roomsMessage = [];
-
-
 
 const style = {
     container: {
@@ -95,8 +94,9 @@ class App extends Component {
     constructor(props) {
         super(props)
         //  console.log(props);
-        this.addMarker = this.addMarker.bind(this)
-        this.setMapCenter = this.setMapCenter.bind(this)
+        this.addMarker = this.addMarker.bind(this);
+        this.setMapCenter = this.setMapCenter.bind(this);
+        this.handleSendGlobalMessage = this.handleSendGlobalMessage.bind(this);
 
         // 預設台北101
         this.state = {
@@ -119,34 +119,28 @@ class App extends Component {
         this.handleOpenChannel = this.handleOpenChannel.bind(this) //頻道選單
         this.handleOpenMessage = this.handleOpenMessage.bind(this) //聊天頻道選單
         this.handleProfile = this.handleProfile.bind(this)   // 第一層選單
-        this.handleSendGlobalMessage = this.handleSendGlobalMessage.bind(this)
     }
 
     componentDidMount() {
+        const {messageAction} = this.props;
+
         socket.on('globalmessage', function (data) {
-            roomsMessage.push(JSON.stringify(data));
+            messageAction.addGlobalMessage(JSON.stringify(data));
             //    console.log(roomsMessage);
         })
     }
 
-    handleSendGlobalMessage(sendMessage) {
-        //  console.log(sendMessage);
-        //  console.log(socket);
-
-        var roomId = '';
-        socket.emit('globalmessage', {
-            roomId: roomId,
-            params: {
-                message: sendMessage
-            }
-        });
-
-
-    }
     appendMessage(msg) {
 
         // var message = document.getElementById("message_block");
         // message.scrollTop = message.scrollHeight;
+    }
+
+    handleSendGlobalMessage(roomId, message) {
+        socket.emit('globalmessage', {
+            roomId: roomId,
+            params: message
+        });
     }
 
     handleOpenMessage() {
@@ -192,7 +186,7 @@ class App extends Component {
 
 
     render() {
-        const { dispatch, markers } = this.props
+        const { dispatch, markers, messages, messageAction } = this.props
 
         return (
             <div style={style.container} >
@@ -217,7 +211,7 @@ class App extends Component {
                 <div style={style.login}>
                     <Menu open={this.state.open} markers={markers} setMapCenter={this.setMapCenter} handleOpenChannel={this.handleOpenChannel} />
                     <ChannelMenu open={this.state.channelopen} handleOpenMessage={this.handleOpenMessage} />
-                    <MessageChannel open={this.state.messageopen} handleSendGlobalMessage={this.handleSendGlobalMessage} roomsMessage={roomsMessage} />
+                    <MessageChannel open={this.state.messageopen} handleSendGlobalMessage={this.handleSendGlobalMessage} roomsMessage={messages} />
                     <ProfileMenu open={this.state.profileopen} handleProfile={this.handleProfile} />
 
                     <Dialog />
@@ -283,9 +277,9 @@ class App extends Component {
                     markerAction.setLocation(userData.userId, location)
                 } else {
                     markerAction.addMarker({
-                        ...userDat,
+                            ...userDat,
                         position: location
-                    })
+                        })
 
             this.setMapCenter(location)
         }
@@ -348,13 +342,15 @@ logout() {
 
 function mapStateToProps(state) {
     return {
-        markers: state.markers
+        markers: state.markers,
+        messages: state.messages
     }
 }
 
 function mapDispatchToProps(dispatch) {
     return {
-        markerAction: bindActionCreators(markerAction, dispatch)
+        markerAction: bindActionCreators(markerAction, dispatch),
+        messageAction: bindActionCreators(messageAction, dispatch)
     }
 }
 

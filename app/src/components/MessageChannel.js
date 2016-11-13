@@ -63,13 +63,16 @@ export default class MessageChannel extends React.Component {
 
 
     handleSendMessage() {
-        let sendMessage = document.getElementById('sendMessage').value;
-        this.props.handleSendGlobalMessage(sendMessage);
+        let sendMessage = this.refs.sendMessage.getValue();
+        this.props.handleSendGlobalMessage('', sendMessage);
+        this.refs.sendMessage.getInputNode().value = '';
         //this.props.handleSendMessage();
     }
     // handleToggle = () => this.setState({ open: !this.state.open });
     //<MarkerList markers={this.props.markers} setMapCenter={this.props.setMapCenter} />
     render() {
+        const {roomsMessage} = this.props;
+
         return (
             <div >
                 <Drawer width={300} openSecondary={true} open={this.props.open} >
@@ -80,14 +83,10 @@ export default class MessageChannel extends React.Component {
                         </List>
                         <Divider />
                         <List>
-                            <TextField hintText="請輸入訊息" style={textStyles} id="sendMessage" />
+                            <TextField hintText="請輸入訊息" style={textStyles} ref="sendMessage" />
                             <RaisedButton label="送出" onTouchTap={() => { this.handleSendMessage() } } style={buttonStyles} />
                         </List>
-
-                        {this.props.roomsMessage}
-                        {this.props.roomsMessage.map((message) => {
-                            <List>message</List>
-                        })}
+                        {roomsMessage.map((message, idx) => <List key={`message_${idx}`}> {message.message}</List>)}
                     </div>
                 </Drawer>
             </div >
