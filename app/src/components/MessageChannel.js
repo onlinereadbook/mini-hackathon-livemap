@@ -45,7 +45,7 @@ export default class MessageChannel extends React.Component {
 
     constructor(props) {
         super(props);
-        console.log(props);
+        //console.log(props);
 
         //this.state = { open: true };
         this.handleChannel = this.handleChannel.bind(this);
@@ -56,7 +56,7 @@ export default class MessageChannel extends React.Component {
     handleChannel() {
         this.props.handleOpenChannel();
         //this.props.open = false;
-        console.log('handleChannel');
+        // console.log('handleChannel');
 
     }
 
@@ -83,6 +83,11 @@ export default class MessageChannel extends React.Component {
                             <TextField hintText="請輸入訊息" style={textStyles} id="sendMessage" />
                             <RaisedButton label="送出" onTouchTap={() => { this.handleSendMessage() } } style={buttonStyles} />
                         </List>
+
+                        {this.props.roomsMessage}
+                        {this.props.roomsMessage.map((message) => {
+                            <List>message</List>
+                        })}
                     </div>
                 </Drawer>
             </div >

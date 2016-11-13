@@ -125,13 +125,13 @@ class App extends Component {
     componentDidMount() {
         socket.on('globalmessage', function (data) {
             roomsMessage.push(JSON.stringify(data));
-            console.log(roomsMessage);
+            //    console.log(roomsMessage);
         })
     }
 
     handleSendGlobalMessage(sendMessage) {
-        console.log(sendMessage);
-        console.log(socket);
+        //  console.log(sendMessage);
+        //  console.log(socket);
 
         var roomId = '';
         socket.emit('globalmessage', {
@@ -217,7 +217,7 @@ class App extends Component {
                 <div style={style.login}>
                     <Menu open={this.state.open} markers={markers} setMapCenter={this.setMapCenter} handleOpenChannel={this.handleOpenChannel} />
                     <ChannelMenu open={this.state.channelopen} handleOpenMessage={this.handleOpenMessage} />
-                    <MessageChannel open={this.state.messageopen} handleSendGlobalMessage={this.handleSendGlobalMessage} />
+                    <MessageChannel open={this.state.messageopen} handleSendGlobalMessage={this.handleSendGlobalMessage} roomsMessage={roomsMessage} />
                     <ProfileMenu open={this.state.profileopen} handleProfile={this.handleProfile} />
 
                     <Dialog />
