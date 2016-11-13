@@ -277,7 +277,7 @@ class App extends Component {
                     markerAction.setLocation(userData.userId, location)
                 } else {
                     markerAction.addMarker({
-                            ...userDat,
+                            ...userData,
                         position: location
                         })
 
