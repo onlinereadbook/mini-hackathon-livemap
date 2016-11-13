@@ -119,6 +119,8 @@ class App extends Component {
         this.handleOpenChannel = this.handleOpenChannel.bind(this) //頻道選單
         this.handleOpenMessage = this.handleOpenMessage.bind(this) //聊天頻道選單
         this.handleProfile = this.handleProfile.bind(this)   // 第一層選單
+        this.handleBackMainOpen = this.handleBackMainOpen.bind(this)   // 第一層選單
+
     }
 
     componentDidMount() {
@@ -160,7 +162,11 @@ class App extends Component {
             this.setState({ profileopen: false })
         }
     }
-
+    handleBackMainOpen() {
+        this.setState({ open: true })
+        this.setState({ channelopen: false })
+        this.setState({ messageopen: false })
+    }
 
     handleOpen() {
         this.setState({ open: true })
@@ -179,6 +185,7 @@ class App extends Component {
         // } else {
         this.setState({ open: false })
         this.setState({ channelopen: true })
+        this.setState({ messageopen: false })
 
         //}
         console.log('openchannel');
@@ -210,8 +217,8 @@ class App extends Component {
 
                 <div style={style.login}>
                     <Menu open={this.state.open} markers={markers} setMapCenter={this.setMapCenter} handleOpenChannel={this.handleOpenChannel} />
-                    <ChannelMenu open={this.state.channelopen} handleOpenMessage={this.handleOpenMessage} />
-                    <MessageChannel open={this.state.messageopen} handleSendGlobalMessage={this.handleSendGlobalMessage} roomsMessage={messages} />
+                    <ChannelMenu open={this.state.channelopen} handleOpenMessage={this.handleOpenMessage} handleBackMainOpen={this.handleBackMainOpen} />
+                    <MessageChannel open={this.state.messageopen} handleSendGlobalMessage={this.handleSendGlobalMessage} roomsMessage={messages} handleOpenChannel={this.handleOpenChannel} />
                     <ProfileMenu open={this.state.profileopen} handleProfile={this.handleProfile} />
 
                     <Dialog />

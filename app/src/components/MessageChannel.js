@@ -48,12 +48,13 @@ export default class MessageChannel extends React.Component {
         //console.log(props);
 
         //this.state = { open: true };
-        this.handleChannel = this.handleChannel.bind(this);
+        this.handleOpenChannel = this.handleOpenChannel.bind(this);
         this.handleSendMessage = this.handleSendMessage.bind(this);
+
     }
 
 
-    handleChannel() {
+    handleOpenChannel() {
         this.props.handleOpenChannel();
         //this.props.open = false;
         // console.log('handleChannel');
@@ -79,6 +80,7 @@ export default class MessageChannel extends React.Component {
                     <div>
                         <List>
                             <ListItem primaryText="個人訊息" leftIcon={<ContentInbox />} />
+                            <RaisedButton label="返回" onTouchTap={() => { this.handleOpenChannel() } } style={buttonStyles} />
 
                         </List>
                         <Divider />

@@ -50,9 +50,15 @@ export default class ChannelMenu extends React.Component {
 
         //this.state = { open: true };
         this.handleMessage = this.handleMessage.bind(this);
+        this.handleBackMainOpen = this.handleBackMainOpen.bind(this);
+
     }
 
+    handleBackMainOpen() {
+        // console.log('tset');
+        this.props.handleBackMainOpen();
 
+    }
     handleMessage() {
         this.props.handleOpenMessage();
         //this.props.open = false;
@@ -67,20 +73,19 @@ export default class ChannelMenu extends React.Component {
             <div>
                 <Drawer width={300} openSecondary={true} open={this.props.open} >
                     <div>
+                        <List>我的頻道</List>
+                        <Divider />
 
+                        <List>   <RaisedButton label="返回" onTouchTap={() => { this.handleBackMainOpen() } } style={buttonStyles} /></List>
                         <List>
                             <ListItem primaryText="團購動物頻道" leftIcon={<ContentInbox />} onTouchTap={this.handleMessage} />
                             <ListItem primaryText="啾單車頻道" leftIcon={<ActionGrade />} />
                             <ListItem primaryText="一起吃晚餐" leftIcon={<ContentInbox />} />
                         </List>
                         <Divider />
-                        <List>
-                            <ListItem primaryText="一起打球吧" rightIcon={<ActionInfo />}
-                                onTouchTap={this.handleChannel}
-                                />
-                            <ListItem primaryText="我要去爬山" rightIcon={<ActionInfo />} />
-                            <ListItem primaryText="我要一起寫遊戲" rightIcon={<ActionInfo />} />
-                        </List>
+                        <List>其他頻道</List>
+                        <Divider />
+
                     </div>
                 </Drawer>
 
