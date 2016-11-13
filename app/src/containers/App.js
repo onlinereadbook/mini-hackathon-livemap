@@ -20,78 +20,20 @@ import MessageChannel from '../components/MessageChannel'
 import ProfileMenu from '../components/ProfileMenu'
 import Dialog from '../components/Dialog'
 import BadgeExampleSimple from '../components/IconButton'
-
+//import _ from 'lodash'
 var socket = io('http://localhost:3000');
-console.log(socket);
-var name = prompt("請輸入暱稱", "guest");
-if (name == "" || name == null) {
-    name = "guest";
-}
-socket.emit('createroom', {});
-//加入房間
-setTimeout(function () {
-    socket.emit('joinroom', {
-        roomId: roomId
-    });
-}, 1000);
-//發送區域性訊息
-setTimeout(function () {
-    socket.emit('localmessage', {
-        roomId: roomId,
-        params: {
-            message: '這是區域訊息'
-        },
-    });
-}, 1200);
+//var name = prompt("請輸入暱稱", "guest");
+// if (name == "" || name == null) {
+//     name = "guest";
+// }
+// var roomId = '';
+// socket.emit('createroom', {});
+var roomsMessage = [];
 
-//發送區域性訊息
-setTimeout(function () {
-    socket.emit('globalmessage', {
-        roomId: roomId,
-        params: {
-            message: '這是全域訊息'
-        },
-    });
-}, 1400);
-//離開房間
-setTimeout(function () {
-    socket.emit('leaveroom', {
-        roomId: roomId
-    });
-}, 2000);
-//tell server
-socket.emit("add user", name);
-//監聽新訊息事件
-socket.on('success', function (resp) {
-    if (resp.roomId) {
-        roomId = resp.roomId;
-    }
-    appendMessage(resp.message);
-});
-socket.on('localmessage', function (data) {
-    appendMessage('LocalMessage:' + JSON.stringify(data));
-});
 socket.on('globalmessage', function (data) {
-    appendMessage('GlobalMessage:' + JSON.stringify(data));
-});
-socket.on('getuid', function (data) {
-    if (data.uid !== undefined) {
-        uid = data.uid;
-        appendMessage("UID: " + data.uid);
-    }
-});
-socket.on('chat message', function (data) {
-    appendMessage(data.username + ":" + data.msg);
-});
-socket.on('add user', function (data) {
-    appendMessage(data.username + "已加入");
-});
-socket.on('user left', function (data) {
-    appendMessage(data.username + "已離開");
-});
-
-
-
+    roomsMessage.push(JSON.stringify(data));
+    console.log(roomsMessage);
+})
 
 const style = {
     container: {
@@ -179,7 +121,29 @@ class App extends Component {
         this.handleOpenChannel = this.handleOpenChannel.bind(this) //頻道選單
         this.handleOpenMessage = this.handleOpenMessage.bind(this) //聊天頻道選單
         this.handleProfile = this.handleProfile.bind(this)   // 第一層選單
+        this.handleSendGlobalMessage = this.handleSendGlobalMessage.bind(this)
+    }
 
+
+
+    handleSendGlobalMessage(sendMessage) {
+        console.log(sendMessage);
+        console.log(socket);
+
+        var roomId = '';
+        socket.emit('globalmessage', {
+            roomId: roomId,
+            params: {
+                message: sendMessage
+            }
+        });
+
+
+    }
+    appendMessage(msg) {
+
+        // var message = document.getElementById("message_block");
+        // message.scrollTop = message.scrollHeight;
     }
 
     handleOpenMessage() {
@@ -225,10 +189,10 @@ class App extends Component {
 
 
     render() {
-        const { dispatch, markers} = this.props
+        const { dispatch, markers } = this.props
 
         return (
-            <div style={style.container}>
+            <div style={style.container} >
                 <div style={style.content}>
                     <Map center={this.state.init.center} zoom={this.state.init.zoom} markers={markers} />
                 </div>
@@ -250,7 +214,7 @@ class App extends Component {
                 <div style={style.login}>
                     <Menu open={this.state.open} markers={markers} setMapCenter={this.setMapCenter} handleOpenChannel={this.handleOpenChannel} />
                     <ChannelMenu open={this.state.channelopen} handleOpenMessage={this.handleOpenMessage} />
-                    <MessageChannel open={this.state.messageopen} />
+                    <MessageChannel open={this.state.messageopen} handleSendGlobalMessage={this.handleSendGlobalMessage} />
                     <ProfileMenu open={this.state.profileopen} handleProfile={this.handleProfile} />
 
                     <Dialog />
