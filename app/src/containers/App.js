@@ -30,10 +30,7 @@ var socket = io('http://localhost:3000');
 // socket.emit('createroom', {});
 var roomsMessage = [];
 
-socket.on('globalmessage', function (data) {
-    roomsMessage.push(JSON.stringify(data));
-    console.log(roomsMessage);
-})
+
 
 const style = {
     container: {
@@ -114,8 +111,9 @@ class App extends Component {
             isLogin: false,
             watchId: 0,
             userData: {}
-        }
 
+        }
+        var roomsMessage = [];
 
         this.handleOpen = this.handleOpen.bind(this)   // 第一層選單
         this.handleOpenChannel = this.handleOpenChannel.bind(this) //頻道選單
@@ -124,7 +122,12 @@ class App extends Component {
         this.handleSendGlobalMessage = this.handleSendGlobalMessage.bind(this)
     }
 
-
+    componentDidMount() {
+        socket.on('globalmessage', function (data) {
+            roomsMessage.push(JSON.stringify(data));
+            console.log(roomsMessage);
+        })
+    }
 
     handleSendGlobalMessage(sendMessage) {
         console.log(sendMessage);
