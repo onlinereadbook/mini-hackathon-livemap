@@ -10,12 +10,16 @@ import bodyParser from 'body-parser';
 import _ from 'lodash';
 import logger from 'morgan';
 import routers from './routers';
+import path from 'path';
+import webpack from 'webpack';
+import config from '../webpack-dev-server.config';
 
 const randomstring = require("randomstring");
 
 const app = Express();
 const http = httpModule.Server(app);
 const io = socketIO(http);
+const compiler = webpack(config);
 
 if (process.env.DEV === 'true') {
     app.use(logger('dev'));
@@ -25,12 +29,22 @@ app.use(bodyParser.urlencoded());
 app.use(multipartyMiddleware());
 app.use(bodyParser.json())
 
+app.use(require('webpack-dev-middleware')(compiler, {
+    noInfo: true,
+    publicPath: config.output.publicPath
+}));
+
+app.use(require('webpack-hot-middleware')(compiler));
 
 app.use('/rooms', routers.rooms);
 app.use('/users', routers.users);
 
-app.get('/', function (req, res) {
+app.get('/chatroom', function (req, res) {
     res.sendFile(__dirname + '/index.html');
+});
+
+app.get('/', function (req, res) {
+    res.sendFile(path.resolve('') + '/app/index.html');
 });
 
 function DisconnectRoom(rooms, socket) {
