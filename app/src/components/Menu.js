@@ -50,9 +50,16 @@ export default class DrawerOpenRightExample extends React.Component {
 
         //this.state = { open: true };
         this.handleChannel = this.handleChannel.bind(this);
+        this.handleCreateRoom = this.handleCreateRoom.bind(this);
     }
 
+    handleCreateRoom() {
+        let roomTitle = this.refs.roomTitle.getValue();
 
+        this.props.handleCreateRoom(roomTitle);
+        this.refs.roomTitle.getInputNode().value = '';
+
+    }
     handleChannel() {
         this.props.handleOpenChannel();
         //this.props.open = false;
@@ -69,8 +76,8 @@ export default class DrawerOpenRightExample extends React.Component {
                     <div>
                         <List>
                             <ListItem primaryText="創建一個新的頻道" leftIcon={<ContentInbox />} />
-                            <TextField hintText="請輸入訊息" style={textStyles} />
-                            <RaisedButton label="送出" style={buttonStyles} />
+                            <TextField hintText="請輸入訊息" style={textStyles} ref="roomTitle" />
+                            <RaisedButton label="送出" style={buttonStyles} onTouchTap={this.handleCreateRoom} />
                         </List>
 
                         <List>

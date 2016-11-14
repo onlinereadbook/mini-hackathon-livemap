@@ -56,9 +56,6 @@ export default class MessageChannel extends React.Component {
 
     handleOpenChannel() {
         this.props.handleOpenChannel();
-        //this.props.open = false;
-        // console.log('handleChannel');
-
     }
 
 
@@ -67,10 +64,7 @@ export default class MessageChannel extends React.Component {
         let sendMessage = this.refs.sendMessage.getValue();
         this.props.handleSendGlobalMessage('', sendMessage);
         this.refs.sendMessage.getInputNode().value = '';
-        //this.props.handleSendMessage();
     }
-    // handleToggle = () => this.setState({ open: !this.state.open });
-    //<MarkerList markers={this.props.markers} setMapCenter={this.props.setMapCenter} />
     render() {
         const {roomsMessage} = this.props;
 

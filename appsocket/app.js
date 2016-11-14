@@ -128,9 +128,11 @@ io.on('connection', function (socket) {
 
     // TODO 建立房間
     socket.on('createroom', (data) => {
+        console.log(data);
         const roomID = randomstring.generate();
         const params = {
             id: roomID,
+            roomTitle: roomTitle
         };
 
         const room = new roomClass(params);
@@ -203,12 +205,12 @@ io.on('connection', function (socket) {
     });
 
     //left
-    socket.on('disconnect', function () {
-        DisconnectRoom(rooms, socket.id);
-        io.emit('user left', {
-            username: socket.username
-        });
-    });
+    // socket.on('disconnect', function () {
+    //     DisconnectRoom(rooms, socket.id);
+    //     io.emit('user left', {
+    //         username: socket.username
+    //     });
+    // });
 
 
 });

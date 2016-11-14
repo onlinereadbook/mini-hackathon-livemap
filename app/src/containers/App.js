@@ -114,15 +114,13 @@ class App extends Component {
 
         }
         var roomsMessage = [];
-
         this.handleOpen = this.handleOpen.bind(this)   // 第一層選單
         this.handleOpenChannel = this.handleOpenChannel.bind(this) //頻道選單
         this.handleOpenMessage = this.handleOpenMessage.bind(this) //聊天頻道選單
         this.handleProfile = this.handleProfile.bind(this)   // 第一層選單
         this.handleBackMainOpen = this.handleBackMainOpen.bind(this)   // 第一層選單
-
+        this.handleCreateRoom = this.handleCreateRoom.bind(this) //創建聊天室
     }
-
     componentDidMount() {
         const {messageAction} = this.props;
 
@@ -144,7 +142,14 @@ class App extends Component {
             params: message
         });
     }
+    handleCreateRoom(roomTitle) {
+        console.log(roomTitle);
+        socket.emit('createroom', {
+            roomTitle: roomTitle
+        });
+        // socket.emit('createroom', {});
 
+    }
     handleOpenMessage() {
         this.setState({ channelopen: false })
         this.setState({ messageopen: true })
@@ -216,7 +221,8 @@ class App extends Component {
                 </div>
 
                 <div style={style.login}>
-                    <Menu open={this.state.open} markers={markers} setMapCenter={this.setMapCenter} handleOpenChannel={this.handleOpenChannel} />
+                    <Menu open={this.state.open} markers={markers} setMapCenter={this.setMapCenter} handleOpenChannel={this.handleOpenChannel} handleCreateRoom={this.handleCreateRoom}
+                        />
                     <ChannelMenu open={this.state.channelopen} handleOpenMessage={this.handleOpenMessage} handleBackMainOpen={this.handleBackMainOpen} />
                     <MessageChannel open={this.state.messageopen} handleSendGlobalMessage={this.handleSendGlobalMessage} roomsMessage={messages} handleOpenChannel={this.handleOpenChannel} />
                     <ProfileMenu open={this.state.profileopen} handleProfile={this.handleProfile} />
