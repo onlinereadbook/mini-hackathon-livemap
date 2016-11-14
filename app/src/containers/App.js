@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as markerAction from '../actions/markerAction';
 import * as messageAction from '../actions/messageAction';
+import * as roomAction from '../actions/roomAction';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import ContentAdd from 'material-ui/svg-icons/content/add';
 
@@ -93,7 +94,6 @@ const zoom = 12
 class App extends Component {
     constructor(props) {
         super(props)
-        //  console.log(props);
         this.addMarker = this.addMarker.bind(this);
         this.setMapCenter = this.setMapCenter.bind(this);
         this.handleSendGlobalMessage = this.handleSendGlobalMessage.bind(this);
@@ -120,14 +120,22 @@ class App extends Component {
         this.handleProfile = this.handleProfile.bind(this)   // 第一層選單
         this.handleBackMainOpen = this.handleBackMainOpen.bind(this)   // 第一層選單
         this.handleCreateRoom = this.handleCreateRoom.bind(this) //創建聊天室
+
+
+
     }
     componentDidMount() {
-        const {messageAction} = this.props;
+        const {messageAction, roomAction} = this.props;
 
         socket.on('globalmessage', function (data) {
             messageAction.addGlobalMessage(JSON.stringify(data));
             //    console.log(roomsMessage);
-        })
+        });
+
+        // connect socket when room add success
+        socket.on('createRoomSuccess', (roomData)=> {
+            roomAction.addRoom(roomData);
+        });
     }
 
     appendMessage(msg) {
@@ -143,11 +151,16 @@ class App extends Component {
         });
     }
     handleCreateRoom(roomTitle) {
-        console.log(roomTitle);
+        // console.log(roomTitle);
         socket.emit('createroom', {
             roomTitle: roomTitle
         });
-        // socket.emit('createroom', {});
+
+        //please remove this function when socket connect. its a test function
+        this.props.roomAction.addRoom({
+            id: Math.random(),
+            title: roomTitle,
+        });
 
     }
     handleOpenMessage() {
@@ -198,7 +211,7 @@ class App extends Component {
 
 
     render() {
-        const { dispatch, markers, messages, messageAction } = this.props
+        const { dispatch, markers, messages, messageAction, rooms } = this.props
 
         return (
             <div style={style.container} >
@@ -223,7 +236,7 @@ class App extends Component {
                 <div style={style.login}>
                     <Menu open={this.state.open} markers={markers} setMapCenter={this.setMapCenter} handleOpenChannel={this.handleOpenChannel} handleCreateRoom={this.handleCreateRoom}
                         />
-                    <ChannelMenu open={this.state.channelopen} handleOpenMessage={this.handleOpenMessage} handleBackMainOpen={this.handleBackMainOpen} />
+                    <ChannelMenu open={this.state.channelopen} handleOpenMessage={this.handleOpenMessage} handleBackMainOpen={this.handleBackMainOpen} rooms={rooms} />
                     <MessageChannel open={this.state.messageopen} handleSendGlobalMessage={this.handleSendGlobalMessage} roomsMessage={messages} handleOpenChannel={this.handleOpenChannel} />
                     <ProfileMenu open={this.state.profileopen} handleProfile={this.handleProfile} />
 
@@ -356,14 +369,16 @@ logout() {
 function mapStateToProps(state) {
     return {
         markers: state.markers,
-        messages: state.messages
+        messages: state.messages,
+        rooms: state.rooms
     }
 }
 
 function mapDispatchToProps(dispatch) {
     return {
         markerAction: bindActionCreators(markerAction, dispatch),
-        messageAction: bindActionCreators(messageAction, dispatch)
+        messageAction: bindActionCreators(messageAction, dispatch),
+        roomAction: bindActionCreators(roomAction, dispatch)
     }
 }
 
