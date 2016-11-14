@@ -1,9 +1,16 @@
-import * as types from '../constants/markerConstant'
+import * as types from '../constants/roomConstant'
 
 const initState = [
     {
+        id: 'AE23423-fwf32',
         title: "預設值",
         userID: 'FBID',
+        memo: 'memo'
+    },
+    {
+        id: 'AE23423-fwf3332',
+        title: "美麗的房間",
+        userID: 'QQQ',
         memo: 'memo'
     }
 ];
@@ -14,7 +21,7 @@ const roomReducer = (state = initState, action) => {
         case types.ADD_ROOM:
             return [
                 ...state,
-                action.title
+                action.roomData
             ]
 
         default:

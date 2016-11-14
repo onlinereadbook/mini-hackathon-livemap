@@ -46,7 +46,7 @@ export default class ChannelMenu extends React.Component {
 
     constructor(props) {
         super(props);
-        console.log(props);
+        //console.log('ChannelMenu props', props);
 
         //this.state = { open: true };
         this.handleMessage = this.handleMessage.bind(this);
@@ -69,6 +69,7 @@ export default class ChannelMenu extends React.Component {
     // handleToggle = () => this.setState({ open: !this.state.open });
     //<MarkerList markers={this.props.markers} setMapCenter={this.props.setMapCenter} />
     render() {
+        const { rooms } = this.props;
         return (
             <div>
                 <Drawer width={300} openSecondary={true} open={this.props.open} >
@@ -78,9 +79,11 @@ export default class ChannelMenu extends React.Component {
 
                         <List>   <RaisedButton label="返回" onTouchTap={() => { this.handleBackMainOpen() } } style={buttonStyles} /></List>
                         <List>
-                            <ListItem primaryText="團購動物頻道" leftIcon={<ContentInbox />} onTouchTap={this.handleMessage} />
-                            <ListItem primaryText="啾單車頻道" leftIcon={<ActionGrade />} />
-                            <ListItem primaryText="一起吃晚餐" leftIcon={<ContentInbox />} />
+                            {
+                                rooms.map((roomData)=>(
+                                    <ListItem key={roomData.id} primaryText={roomData.title} leftIcon={<ContentInbox />} onTouchTap={this.handleMessage} />
+                                ))
+                            }
                         </List>
                         <Divider />
                         <List>其他頻道</List>
@@ -88,9 +91,6 @@ export default class ChannelMenu extends React.Component {
 
                     </div>
                 </Drawer>
-
-
-
             </div>
         );
     }
