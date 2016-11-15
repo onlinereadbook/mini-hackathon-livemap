@@ -95,7 +95,7 @@ app.get('/chatroom', function (req, res) {
 app.use(express.static(_path2.default.join(__dirname, '../')));
 
 app.get('/', function (req, res) {
-    res.sendFile(_path2.default.resolve('') + '/app/index.html');
+    res.sendFile(_path2.default.join(__dirname, '../app/index.html'));
 });
 
 function DisconnectRoom(rooms, socket) {
