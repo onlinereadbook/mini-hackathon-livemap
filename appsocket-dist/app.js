@@ -92,6 +92,8 @@ app.get('/chatroom', function (req, res) {
     res.sendFile(__dirname + '/index.html');
 });
 
+app.use(express.static(_path2.default.join(__dirname, '../')));
+
 app.get('/', function (req, res) {
     res.sendFile(_path2.default.resolve('') + '/app/index.html');
 });
@@ -292,9 +294,10 @@ app.use(function (error, req, res, next) {
     });
 });
 
+var port = process.env.PORT || 3000;
 //指定port
-http.listen(process.env.PORT || 3000, function () {
-    console.log('listening on *:3000');
+http.listen(port, function () {
+    console.log('listening on *:', port);
 });
 
 //Nodejs 奇怪的錯誤防止Process 死掉
