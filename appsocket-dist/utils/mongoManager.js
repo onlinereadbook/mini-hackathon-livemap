@@ -4,7 +4,17 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+var _promise = require('babel-runtime/core-js/promise');
+
+var _promise2 = _interopRequireDefault(_promise);
+
+var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
+
+var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+var _createClass2 = require('babel-runtime/helpers/createClass');
+
+var _createClass3 = _interopRequireDefault(_createClass2);
 
 var _config = require('../config');
 
@@ -12,13 +22,13 @@ var config = _interopRequireWildcard(_config);
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var mongo = require('mongoskin');
 
 var MongoDBManager = function () {
     function MongoDBManager(host, port, dbName) {
-        _classCallCheck(this, MongoDBManager);
+        (0, _classCallCheck3.default)(this, MongoDBManager);
 
         for (var _len = arguments.length, options = Array(_len > 3 ? _len - 3 : 0), _key = 3; _key < _len; _key++) {
             options[_key - 3] = arguments[_key];
@@ -32,7 +42,7 @@ var MongoDBManager = function () {
         this.db = mongo.db('mongodb://' + host + ':' + port + '/' + dbName, options);
     }
 
-    _createClass(MongoDBManager, [{
+    (0, _createClass3.default)(MongoDBManager, [{
         key: 'setCollection',
         value: function setCollection(name) {
             return this.db.bind(name);
@@ -46,7 +56,7 @@ var MongoDBManager = function () {
 
             var _this = this;
 
-            return new Promise(function (resolve, reject) {
+            return new _promise2.default(function (resolve, reject) {
                 _this.setCollection(collection);
                 _this.db[collection].insert(query, options, function (err, result) {
                     if (err) {
@@ -62,7 +72,7 @@ var MongoDBManager = function () {
         value: function findOne(collection, query, options) {
             var _this2 = this;
 
-            return new Promise(function (resolve, reject) {
+            return new _promise2.default(function (resolve, reject) {
                 _this2.setCollection(collection);
                 _this2.db[collection].findOne(query, options, function (err, item) {
                     console.log(err, item);
@@ -75,7 +85,6 @@ var MongoDBManager = function () {
             });
         }
     }]);
-
     return MongoDBManager;
 }();
 
