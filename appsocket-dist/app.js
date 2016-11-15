@@ -77,13 +77,14 @@ app.use(_bodyParser2.default.urlencoded());
 app.use((0, _connectMultiparty2.default)());
 app.use(_bodyParser2.default.json());
 
-app.use(require('webpack-dev-middleware')(compiler, {
-    noInfo: true,
-    publicPath: _webpackDevServer2.default.output.publicPath
-}));
+if (app.get('env') === 'development') {
+    app.use(require('webpack-dev-middleware')(compiler, {
+        noInfo: true,
+        publicPath: _webpackDevServer2.default.output.publicPath
+    }));
 
-app.use(require('webpack-hot-middleware')(compiler));
-
+    app.use(require('webpack-hot-middleware')(compiler));
+}
 app.use('/rooms', _routers2.default.rooms);
 app.use('/users', _routers2.default.users);
 

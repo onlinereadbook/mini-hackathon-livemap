@@ -29,13 +29,14 @@ app.use(bodyParser.urlencoded());
 app.use(multipartyMiddleware());
 app.use(bodyParser.json())
 
-app.use(require('webpack-dev-middleware')(compiler, {
-    noInfo: true,
-    publicPath: config.output.publicPath
-}));
+if (app.get('env') === 'development') {
+    app.use(require('webpack-dev-middleware')(compiler, {
+        noInfo: true,
+        publicPath: config.output.publicPath
+    }));
 
-app.use(require('webpack-hot-middleware')(compiler));
-
+    app.use(require('webpack-hot-middleware')(compiler));
+}
 app.use('/rooms', routers.rooms);
 app.use('/users', routers.users);
 
