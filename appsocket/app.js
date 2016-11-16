@@ -25,7 +25,6 @@ app.use(bodyParser.urlencoded());
 app.use(multipartyMiddleware());
 app.use(bodyParser.json())
 
-
 app.use('/rooms', routers.rooms);
 app.use('/users', routers.users);
 
@@ -87,12 +86,16 @@ class roomClass {
     addMember(user) {
         return new Promise((resolve, reject) => {
             let error = null;
-            this._MEMBERS.map(u => {
-                if (u.id === user.id) {
-                    reject(new Error('使用者已存在'));
-                }
-            });
-            this._MEMBERS.push(user);
+            this
+                ._MEMBERS
+                .map(u => {
+                    if (u.id === user.id) {
+                        reject(new Error('使用者已存在'));
+                    }
+                });
+            this
+                ._MEMBERS
+                .push(user);
 
             resolve();
         });
@@ -109,28 +112,25 @@ class roomClass {
 
 let rooms = [];
 
-
 var user_count = 0;
 
 //當新的使用者連接進來的時候
 io.on('connection', function (socket) {
 
-    socket.on('chat message', function (data) {
-        //console.log(data);
-        //appendMessage(data.username+":"+data.msg);
-        io.emit('globalmessage', data);
-    });
+    socket
+        .on('chat message', function (data) {
+            //console.log(data); appendMessage(data.username+":"+data.msg);
+            io.emit('globalmessage', data);
+        });
 
     //回傳個人的socket.id
-    socket.emit('getuid', {
-        uid: socket.id
-    });
+    socket.emit('getuid', {uid: socket.id});
 
     // TODO 建立房間
     socket.on('createroom', (data) => {
         const roomID = randomstring.generate();
         const params = {
-            id: roomID,
+            id: roomID
         };
 
         const room = new roomClass(params);
@@ -150,7 +150,9 @@ io.on('connection', function (socket) {
             socket.emit('errorStatus', checkResult.error);
         } else {
 
-            checkResult.targetRoom.addMember(socket)
+            checkResult
+                .targetRoom
+                .addMember(socket)
                 .then(() => {
                     socket.join(req.roomId);
 
@@ -158,7 +160,8 @@ io.on('connection', function (socket) {
                         status: 200,
                         message: `使用者${socket.id}已加入成功`
                     });
-                }).catch(error => {
+                })
+                .catch(error => {
                     socket.emit('error', {
                         status: 404,
                         message: error.message
@@ -175,7 +178,9 @@ io.on('connection', function (socket) {
         if (checkResult.error) {
             socket.emit('errorStatus', checkResult.error);
         } else {
-            checkResult.targetRoom.removeMember(socket);
+            checkResult
+                .targetRoom
+                .removeMember(socket);
             socket.leave(req.roomId);
             socket.emit('success', {
                 status: 200,
@@ -192,7 +197,9 @@ io.on('connection', function (socket) {
         if (checkResult.error) {
             socket.emit('errorStatus', checkResult.error);
         } else {
-            io.to(req.roomId).emit('localmessage', req.params);
+            io
+                .to(req.roomId)
+                .emit('localmessage', req.params);
         }
     });
 
@@ -205,23 +212,18 @@ io.on('connection', function (socket) {
     //left
     socket.on('disconnect', function () {
         DisconnectRoom(rooms, socket.id);
-        io.emit('user left', {
-            username: socket.username
-        });
+        io.emit('user left', {username: socket.username});
     });
-
 
 });
 
 //Error Handler
 app.use((error, req, res, next) => {
     const status = error.status || 500;
-    res.status(status).json({
-        message: error.message
-    });
+    res
+        .status(status)
+        .json({message: error.message});
 });
-
-
 
 //指定port
 http.listen(process.env.PORT || 3000, function () {

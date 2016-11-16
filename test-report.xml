@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="Mocha Tests" time="0.055" tests="1" failures="1">
+  <testsuite name="Root Suite" timestamp="2016-11-16T01:30:49" tests="0" failures="0" time="0">
+  </testsuite>
+  <testsuite name="Blobs" timestamp="2016-11-16T01:30:50" tests="1" failures="1" time="0.055">
+    <testcase name="Blobs should 建立一個使用者" time="0.055" classname="should 建立一個使用者">
+      <failure><![CDATA[Error: Internal Server Error
+    at Test.Request.callback (node_modules/superagent/lib/node/index.js:626:17)
+    at node_modules/superagent/lib/node/index.js:795:18
+    at IncomingMessage.<anonymous> (node_modules/superagent/lib/node/parsers/json.js:16:7)
+    at endReadableNT (_stream_readable.js:974:12)
+    at _combinedTickCallback (internal/process/next_tick.js:74:11)
+    at process._tickCallback (internal/process/next_tick.js:98:9)]]></failure>
+    </testcase>
+  </testsuite>
+</testsuites>
