@@ -5,12 +5,28 @@ import _ from 'lodash';
 import express from 'express';
 import MongoDBManager from '../utils/mongoManager';
 
-import {createNewToken} from '../utils/authManager';
+import {createNewToken, checkToken} from '../utils/authManager';
 
 const router = express.Router();
 
-router.get('/', (req, res) => {
-    res.json({"state": 222});
+router.get('/', checkToken, (req, res, next) => {
+
+    let query = {},
+        options = {};
+    options.from = req.body.from || 0;
+    options.limit = req.body.limit || 10;
+
+    MongoDBManager
+        .find('users', query, options)
+        .then(users => {
+
+            res.json({users});
+
+        })
+        .catch(error => {
+            error.status = 500;
+            next(error);
+        })
 });
 
 router.post('/', (req, res, next) => {
