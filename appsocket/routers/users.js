@@ -9,6 +9,24 @@ import {createNewToken, checkToken} from '../utils/authManager';
 
 const router = express.Router();
 
+router.get('/:id', (req, res, next) => {
+    const query = {
+        "fb_id": req.params.id
+    };
+
+    MongoDBManager
+        .findOne('users', query)
+        .then(user => {
+
+            res.json({user});
+
+        })
+        .catch(error => {
+            error.status = 500;
+            next(error);
+        });
+});
+
 router.get('/', checkToken, (req, res, next) => {
 
     let query = {},
@@ -97,4 +115,5 @@ router.post('/login', (req, res, next) => {
             });
     }
 });
+
 export default router
