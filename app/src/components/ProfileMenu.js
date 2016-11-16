@@ -1,4 +1,8 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import * as markerAction from '../actions/markerAction';
+import * as profileAction from '../actions/profileAction';
 import Drawer from 'material-ui/Drawer';
 import AppBar from 'material-ui/AppBar';
 import RaisedButton from 'material-ui/RaisedButton';
@@ -47,18 +51,19 @@ const HomeIcon = (props) => (
     </SvgIcon>
 );
 
-export default class ProfileMenu extends React.Component {
+
+class ProfileMenu extends React.Component {
 
     constructor(props) {
         super(props);
         console.log(props);
 
-        this.state = {};
-
+        this.state = { account: '' };
         this.handleChannel = this.handleChannel.bind(this);
+        this.save = this.save.bind(this);
         this.onDrop = this.onDrop.bind(this);
-    }
 
+    }
 
     handleChannel() {
         this.props.handleOpenChannel();
@@ -66,6 +71,7 @@ export default class ProfileMenu extends React.Component {
         console.log('handleChannel');
 
     }
+
 
     onDrop(acceptedFiles, rejectedFiles) {
         console.log('Accepted files: ', acceptedFiles);
@@ -78,9 +84,18 @@ export default class ProfileMenu extends React.Component {
         });
     }
 
+    save(name) {
+        const { profileAction, profile, markerAction } = this.props;
+
+        profileAction.updateProfile(name);
+        markerAction.setMarker(profile.userId, name, profile.photo);
+    }
+
     // handleToggle = () => this.setState({ open: !this.state.open });
     //<MarkerList markers={this.props.markers} setMapCenter={this.props.setMapCenter} />
     render() {
+        const { profile } = this.props;
+
         return (
             <div>
                 <Drawer width={menuStyles.width} openSecondary={true} open={this.props.open}
@@ -93,7 +108,7 @@ export default class ProfileMenu extends React.Component {
                         </List>
                         <Divider />
 
-                        { this.state.imgPreview ?
+                        {this.state.imgPreview ?
                             <img src={this.state.imgPreview} /> :
                             (<Dropzone
                                 multiple={false}
@@ -104,7 +119,11 @@ export default class ProfileMenu extends React.Component {
                         }
 
                         <List>
-                            <CardProfile handleProfile={this.props.handleProfile}></CardProfile>
+                            <CardProfile
+                                profile={profile}
+                                save={this.save}
+                                handleProfile={this.props.handleProfile}
+                                ></CardProfile>
                         </List>
                     </div>
                 </Drawer>
@@ -115,3 +134,19 @@ export default class ProfileMenu extends React.Component {
         );
     }
 }
+
+function mapStateToProps(state) {
+    return {
+        profile: state.profile
+    }
+}
+
+function mapDispatchToProps(dispatch) {
+    return {
+        markerAction: bindActionCreators(markerAction, dispatch),
+        profileAction: bindActionCreators(profileAction, dispatch)
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ProfileMenu);
+

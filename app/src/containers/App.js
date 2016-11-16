@@ -4,6 +4,7 @@ import { bindActionCreators } from 'redux';
 import * as markerAction from '../actions/markerAction';
 import * as messageAction from '../actions/messageAction';
 import * as roomAction from '../actions/roomAction';
+import * as profileAction from '../actions/profileAction';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import ContentAdd from 'material-ui/svg-icons/content/add';
 
@@ -15,6 +16,7 @@ import FontIcon from 'material-ui/FontIcon';
 import { BottomNavigation, BottomNavigationItem } from 'material-ui/BottomNavigation';
 import Paper from 'material-ui/Paper';
 import IconLocationOn from 'material-ui/svg-icons/communication/location-on';
+import Modal from 'react-modal';
 
 import Menu from '../components/Menu'
 import ChannelMenu from '../components/ChannelMenu'
@@ -81,11 +83,23 @@ const style = {
         zIndex: 1,
         textAlign: 'center'
     },
-    login: {
+    menu: {
         position: 'absolute',
         left: 0,
         top: 0,
         zIndex: 1
+    },
+    loginDialog: {
+        overlay: {
+            zIndex: 999
+        },
+        content: {
+            width: '258px',
+            height: '100px',
+            margin: 'auto auto',
+            backgroundColor: 'black',
+            opacity: 0.8
+        }
     }
 }
 
@@ -109,9 +123,7 @@ class App extends Component {
             messageopen: false,
             profileopen: false,
             isLogin: false,
-            watchId: 0,
-            userData: {}
-
+            watchId: 0
         }
         var roomsMessage = [];
         this.handleOpen = this.handleOpen.bind(this)   // 第一層選單
@@ -120,20 +132,18 @@ class App extends Component {
         this.handleProfile = this.handleProfile.bind(this)   // 第一層選單
         this.handleBackMainOpen = this.handleBackMainOpen.bind(this)   // 第一層選單
         this.handleCreateRoom = this.handleCreateRoom.bind(this) //創建聊天室
-
-
-
     }
+
     componentDidMount() {
         const {messageAction, roomAction} = this.props;
 
-        socket.on('globalmessage', function (data) {
+        socket.on('globalmessage', function(data) {
             messageAction.addGlobalMessage(JSON.stringify(data));
             //    console.log(roomsMessage);
         });
 
         // connect socket when room add success
-        socket.on('createRoomSuccess', (roomData)=> {
+        socket.on('createRoomSuccess', (roomData) => {
             roomAction.addRoom(roomData);
         });
     }
@@ -211,10 +221,20 @@ class App extends Component {
 
 
     render() {
-        const { dispatch, markers, messages, messageAction, rooms } = this.props
+        const { dispatch, markers, messages, messageAction, rooms, profile } = this.props
 
         return (
             <div style={style.container} >
+                <Modal isOpen={!this.state.isLogin} style={style.loginDialog}>
+                    <Login
+                        isLogin={this.state.isLogin}
+                        fbLogin={this.fbLogin.bind(this)}
+                        guestLogin={this.guestLogin.bind(this)}
+                        logout={this.logout.bind(this)}
+                        />
+                </Modal>
+
+
                 <div style={style.content}>
                     <Map center={this.state.init.center} zoom={this.state.init.zoom} markers={markers} />
                 </div>
@@ -233,20 +253,12 @@ class App extends Component {
 
                 </div>
 
-                <div style={style.login}>
+                <div style={style.menu}>
                     <Menu open={this.state.open} markers={markers} setMapCenter={this.setMapCenter} handleOpenChannel={this.handleOpenChannel} handleCreateRoom={this.handleCreateRoom}
                         />
                     <ChannelMenu open={this.state.channelopen} handleOpenMessage={this.handleOpenMessage} handleBackMainOpen={this.handleBackMainOpen} rooms={rooms} />
                     <MessageChannel open={this.state.messageopen} handleSendGlobalMessage={this.handleSendGlobalMessage} roomsMessage={messages} handleOpenChannel={this.handleOpenChannel} />
                     <ProfileMenu open={this.state.profileopen} handleProfile={this.handleProfile} />
-
-                    <Dialog />
-                    <Login
-                        isLogin={this.state.isLogin}
-                        fbLogin={this.fbLogin.bind(this)}
-                        guestLogin={this.guestLogin.bind(this)}
-                        logout={this.logout.bind(this)}
-                        />
                 </div>
 
 
@@ -287,7 +299,7 @@ class App extends Component {
         })
     }
 
-    watchPosition(userData) {
+    watchPosition(profile) {
         const that = this
 
         if (navigator.geolocation) {
@@ -297,13 +309,13 @@ class App extends Component {
                 const { markerAction, markers } = that.props
                 const location = { lat: position.coords.latitude, lng: position.coords.longitude }
 
-                let myLocation = markers.filter(x => x.userId == userData.userId)[0]
+                let myLocation = markers.filter(x => x.userId == profile.userId)[0]
 
                 if (myLocation) {
-                    markerAction.setLocation(userData.userId, location)
+                    markerAction.setLocation(profile.userId, location)
                 } else {
                     markerAction.addMarker({
-                            ...userData,
+                            ...profile,
                         position: location
                         })
 
@@ -318,45 +330,50 @@ class App extends Component {
 fbLogin(response) {
     if (response.status) return;
 
-    const userData = {
-        text: response.name,
+    const { profileAction } = this.props;
+
+    const profile = {
+        name: response.name,
         photo: response.picture.data.url,
         userId: response.id,
         role: 'FB',
         message: `大家好，我是${response.name}！`
     }
 
-    this.watchPosition(userData)
+    profileAction.initProfile(profile);
+    this.watchPosition(profile);
     this.setState({
-        isLogin: true,
-        userData
-    })
+        isLogin: true
+    });
 }
 
 guestLogin() {
-    const userData = {
-        text: '訪客',
+    const { profileAction } = this.props;
+
+    const profile = {
+        name: '訪客',
         photo: 'https://goo.gl/6dcw3S',
         userId: new Date().getTime(),
         role: 'GUEST',
         message: '大家好，我是訪客！'
     }
 
-    this.watchPosition(userData)
+    profileAction.initProfile(profile);
+    this.watchPosition(profile);
     this.setState({
         isLogin: true,
-        userData
-    })
+        profile
+    });
 }
 
 logout() {
     const { markerAction } = this.props
-    const {userData, watchId} = this.state
+    const {profile, watchId} = this.state
 
-    markerAction.removeMarker(userData.userId)
+    markerAction.removeMarker(profile.userId)
     navigator.geolocation.clearWatch(watchId);
 
-    if (userData.role == 'FB') {
+    if (profile.role == 'FB') {
         FB.logout()
     }
 
@@ -370,7 +387,8 @@ function mapStateToProps(state) {
     return {
         markers: state.markers,
         messages: state.messages,
-        rooms: state.rooms
+        rooms: state.rooms,
+        profile: state.profile
     }
 }
 
@@ -378,7 +396,8 @@ function mapDispatchToProps(dispatch) {
     return {
         markerAction: bindActionCreators(markerAction, dispatch),
         messageAction: bindActionCreators(messageAction, dispatch),
-        roomAction: bindActionCreators(roomAction, dispatch)
+        roomAction: bindActionCreators(roomAction, dispatch),
+        profileAction: bindActionCreators(profileAction, dispatch)
     }
 }
 

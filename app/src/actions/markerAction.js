@@ -21,3 +21,12 @@ export function setLocation(userId, location) {
         location
     }
 }
+
+export function setMarker(userId, name, photo) {
+    return {
+        type: types.SET_MARKER,
+        userId,
+        name,
+        photo
+    }
+}
