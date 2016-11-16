@@ -15,8 +15,9 @@ import ContentSend from 'material-ui/svg-icons/content/send';
 import ContentDrafts from 'material-ui/svg-icons/content/drafts';
 import Divider from 'material-ui/Divider';
 import ActionInfo from 'material-ui/svg-icons/action/info';
+import Dropzone from 'react-dropzone';
 
-import CardProfile from '../components/CardProfile'
+import CardProfile from '../components/CardProfile';
 
 const iconStyles = {
     marginRight: 24,
@@ -46,14 +47,16 @@ const HomeIcon = (props) => (
     </SvgIcon>
 );
 
-export default class MessageChannel extends React.Component {
+export default class ProfileMenu extends React.Component {
 
     constructor(props) {
         super(props);
         console.log(props);
 
-        //this.state = { open: true };
+        this.state = {};
+
         this.handleChannel = this.handleChannel.bind(this);
+        this.onDrop = this.onDrop.bind(this);
     }
 
 
@@ -62,6 +65,17 @@ export default class MessageChannel extends React.Component {
         //this.props.open = false;
         console.log('handleChannel');
 
+    }
+
+    onDrop(acceptedFiles, rejectedFiles) {
+        console.log('Accepted files: ', acceptedFiles);
+        console.log('Rejected files: ', rejectedFiles);
+
+        let imgPreview = acceptedFiles[0].preview;
+
+        this.setState({
+            imgPreview
+        });
     }
 
     // handleToggle = () => this.setState({ open: !this.state.open });
@@ -78,6 +92,17 @@ export default class MessageChannel extends React.Component {
 
                         </List>
                         <Divider />
+
+                        { this.state.imgPreview ?
+                            <img src={this.state.imgPreview} /> :
+                            (<Dropzone
+                                multiple={false}
+                                accept="image/*"
+                                onDrop={this.onDrop}>
+                                <div>Drop an image or click to select a file to upload.</div>
+                            </Dropzone>)
+                        }
+
                         <List>
                             <CardProfile handleProfile={this.props.handleProfile}></CardProfile>
                         </List>
