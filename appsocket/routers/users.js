@@ -1,9 +1,11 @@
 /**
- * @flow 
+ * @flow
  * */
 import _ from 'lodash';
 import express from 'express';
 import MongoDBManager from '../utils/mongoManager';
+
+import {createNewToken} from '../utils/authManager';
 
 const router = express.Router();
 
@@ -12,30 +14,71 @@ router.get('/', (req, res) => {
 });
 
 router.post('/', (req, res, next) => {
-    const query = _.pick(req.body, 'socket_id', 'nickname', 'logo');
+    const query = _.pick(req.body, 'socket_id', 'nickname', 'logo', "fb_id");
 
-    if(!query.socket_id){
+    if (_.isUndefined(query.socket_id)) {
+
         next(new Error('Socket ID 不可為空'));
-    }else{
-        MongoDBManager.findOne('users', {
-            socket_id: query.socket_id
-        }).then(user => {
-            if(user){
-                const error = new Error('使用者已存在');
-                error.status = 404;
-                throw(error);
-            }else{
-                return MongoDBManager.insert('users', query);
-            }
-        }).then(result => {
-            res.status(200).json({
-                user: result
+
+    } else if (_.isUndefined(query.fb_id)) {
+
+        next(new Error('Facebook ID不可為空'));
+
+    } else {
+
+        MongoDBManager
+            .findOne('users', {socket_id: query.socket_id})
+            .then(user => {
+                if (user) {
+
+                    const error = new Error('使用者已存在');
+                    error.status = 404;
+                    next(error);
+
+                } else {
+
+                    return MongoDBManager.insert('users', query);
+
+                }
+            })
+            .then(result => {
+                res
+                    .status(200)
+                    .json({user: result.ops[0]});
+            })
+            .catch(error => {
+                error.status = 500;
+                next(error);
             });
-        }).catch(error => {
-            error.status = 500;
-            next(error);
-        });
+
     }
 });
 
+router.post('/login', (req, res, next) => {
+    const query = _.pick(req.body, 'fb_id');
+
+    if (_.isUndefined(query.fb_id)) {
+
+        next(new Error('Facebook ID不可為空'));
+
+    } else {
+
+        MongoDBManager
+            .findOne('users', query)
+            .then(user => {
+                if (_.isUndefined(user)) {
+
+                    const error = new Error('使用者已存在');
+                    error.status = 404;
+                    next(error);
+
+                } else {
+
+                    const token = createNewToken(user);
+
+                    res.json({token});
+                }
+            });
+    }
+});
 export default router
