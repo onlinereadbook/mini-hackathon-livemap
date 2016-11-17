@@ -1,32 +1,15 @@
 /**
  * @flow
  */
-import Express from 'express';
 import httpModule from 'http';
 import socketIO from 'socket.io';
-import cors from 'cors';
-import multipartyMiddleware from 'connect-multiparty';
-import bodyParser from 'body-parser';
 import _ from 'lodash';
-import logger from 'morgan';
-import routers from './routers';
+import app from './server';
 
 const randomstring = require("randomstring");
 
-const app = Express();
 const http = httpModule.Server(app);
 const io = socketIO(http);
-
-if (process.env.DEV === 'true') {
-    app.use(logger('dev'));
-}
-
-app.use(bodyParser.urlencoded());
-app.use(multipartyMiddleware());
-app.use(bodyParser.json())
-
-app.use('/rooms', routers.rooms);
-app.use('/users', routers.users);
 
 app.get('/', function (req, res) {
     res.sendFile(__dirname + '/index.html');
@@ -215,14 +198,6 @@ io.on('connection', function (socket) {
         io.emit('user left', {username: socket.username});
     });
 
-});
-
-//Error Handler
-app.use((error, req, res, next) => {
-    const status = error.status || 500;
-    res
-        .status(status)
-        .json({message: error.message});
 });
 
 //指定port
