@@ -3,38 +3,29 @@
  */
 import chai from 'chai';
 import chaiHttp from 'chai-http';
-import server from '../../../appsocket/app';
+import server from '../../../appsocket/server';
 import should from 'should';
 import moment from 'moment';
+import Fakerdata from '../../data.json';
 
 chai.use(chaiHttp);
+
+server.set('unitest', true);
 
 export function createUserSuccess(done) {
     chai
         .request(server)
         .post('/users')
-        .send({
-            deadtime: moment().format('YYYY-MM-DD hh:mm:ss'),
-            title: "Room Test",
-            type: "chat"
-        })
+        .send(Fakerdata.user1)
         .end((err, res) => {
             if (err) {
                 done(err);
             } else {
                 res
-                    .should
-                    .have
-                    .status(200);
-
-                res.should.be.json;
-
-                res
                     .body
                     .should
                     .have
                     .property('user');
-                res.body.room.should.be.json;
                 res
                     .body
                     .user
@@ -59,8 +50,13 @@ export function createUserSuccess(done) {
                     .should
                     .have
                     .property('logo');
+                res
+                    .body
+                    .user
+                    .should
+                    .have
+                    .property('fb_id');
                 done();
             }
-
         });
 }

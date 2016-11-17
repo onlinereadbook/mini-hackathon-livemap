@@ -102,7 +102,6 @@ io.on('connection', function (socket) {
 
     socket
         .on('chat message', function (data) {
-            //console.log(data); appendMessage(data.username+":"+data.msg);
             io.emit('globalmessage', data);
         });
 

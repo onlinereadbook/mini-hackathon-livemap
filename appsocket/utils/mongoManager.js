@@ -45,7 +45,6 @@ class MongoDBManager {
             this
                 .db[collection]
                 .findOne(query, options, (err, item) => {
-                    console.log(err, item);
                     if (err) {
                         reject(err);
                     } else {
@@ -71,11 +70,31 @@ class MongoDBManager {
                     }
                 });
         });
-
     }
 
+    clear(collection : string) : Promise {
+        return new Promise((resolve, reject) => {
+            this.setCollection(collection);
+            this
+                .db[collection]
+                .remove({}, (err) => {
+                    if (err) {
+                        reject(err);
+                    } else {
+                        resolve();
+                    }
+                });
+
+        });
+    }
 }
 
-const manager = new MongoDBManager(config.host, config.port, config.dbName);
+let dbName = config.dbName;
+
+if (process.env.Unitest === true) {
+    dbName = config.testDBName;
+}
+
+const manager = new MongoDBManager(config.host, config.port, dbName);
 
 export default manager;

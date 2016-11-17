@@ -34,7 +34,6 @@ app.use((error, req, res, next) => {
 //預期外的錯誤，防止crash
 process.on('uncaughtException', (err) => {
     //應該要寫入資料庫
-    console.log(err);
 });
 
 export default app;
