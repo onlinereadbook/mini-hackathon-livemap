@@ -92,7 +92,7 @@ app.get('/chatroom', function (req, res) {
     res.sendFile(__dirname + '/index.html');
 });
 
-app.use(express.static(_path2.default.join(__dirname, '../')));
+app.use(_express2.default.static(_path2.default.join(__dirname, '../')));
 
 app.get('/', function (req, res) {
     res.sendFile(_path2.default.join(__dirname, '../app/index.html'));

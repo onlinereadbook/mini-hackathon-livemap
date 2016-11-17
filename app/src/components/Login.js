@@ -17,7 +17,7 @@ const Login = ({isLogin, fbLogin, guestLogin, logout}) => {
                     ? (
                         <div>
                             <FacebookLogin
-                                appId="726019197546139"
+                                appId="532588166938909"
                                 fields="name,email,picture"
                                 callback={fbLogin}
                                 icon="fa-facebook"
