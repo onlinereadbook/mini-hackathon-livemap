@@ -3,11 +3,20 @@
  */
 import * as UserSpecs from './specs/routers/users.spec';
 import MongoDBManager from '../appsocket/utils/mongoManager';
+import data from './data.json';
 
 describe('User Unitest', function () {
     before(done => {
-        MongoDBManager.clear('users');
-        done();
+
+        MongoDBManager
+            .clear('users')
+            .then(() => {
+                return MongoDBManager.insert('users', data.users);
+            })
+            .then(rs => {
+                done();
+            })
+            .catch(err => done(err));
     });
     it('should 建立一個使用者', UserSpecs.createUserSuccess);
     it('should 會員登入取得驗證Token', UserSpecs.userLogin);

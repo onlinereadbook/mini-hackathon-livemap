@@ -50,7 +50,6 @@ router.get('/', checkToken, (req, res, next) => {
 router.post('/', (req, res, next) => {
     const query = _.pick(req.body, 'socket_id', 'nickname', 'logo', "fb_id");
 
-    console.log(req.body);
     if (_.isUndefined(query.socket_id)) {
 
         next(new Error('Socket ID 不可為空'));
