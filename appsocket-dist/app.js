@@ -56,18 +56,20 @@ var _webpack = require('webpack');
 
 var _webpack2 = _interopRequireDefault(_webpack);
 
-var _webpackDevServer = require('../webpack-dev-server.config');
+var _webpackDeploy = require('../webpack-deploy.config');
 
-var _webpackDevServer2 = _interopRequireDefault(_webpackDevServer);
+var _webpackDeploy2 = _interopRequireDefault(_webpackDeploy);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var randomstring = require("randomstring");
+//import config from '../webpack-dev-server.config';
+
 
 var app = (0, _express2.default)();
 var http = _http2.default.Server(app);
 var io = (0, _socket2.default)(http);
-var compiler = (0, _webpack2.default)(_webpackDevServer2.default);
+var compiler = (0, _webpack2.default)(_webpackDeploy2.default);
 
 if (process.env.DEV === 'true') {
     app.use((0, _morgan2.default)('dev'));
@@ -80,7 +82,7 @@ app.use(_bodyParser2.default.json());
 if (app.get('env') === 'development') {
     app.use(require('webpack-dev-middleware')(compiler, {
         noInfo: true,
-        publicPath: _webpackDevServer2.default.output.publicPath
+        publicPath: _webpackDeploy2.default.output.publicPath
     }));
 
     app.use(require('webpack-hot-middleware')(compiler));

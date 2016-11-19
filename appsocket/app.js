@@ -12,7 +12,8 @@ import logger from 'morgan';
 import routers from './routers';
 import path from 'path';
 import webpack from 'webpack';
-import config from '../webpack-dev-server.config';
+//import config from '../webpack-dev-server.config';
+import config from '../webpack-deploy.config';
 
 const randomstring = require("randomstring");
 
