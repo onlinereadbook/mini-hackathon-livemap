@@ -13,7 +13,6 @@ export function checkToken(req, res, next) {
         error.status = 404;
         next(error);
     } else {
-
         const user = decodeToken(token);
         req.self = user;
         next();
@@ -29,8 +28,7 @@ export function createNewToken(user : Object) : string {
 }
 
 export function decodeToken(token : string) : Object {
-
-    const jwtObject = jwt.verify(token, SECRET_KEY);
+    const jwtObject = jwt.verify(token.trim(), SECRET_KEY);
     return jwtObject;
 
 }

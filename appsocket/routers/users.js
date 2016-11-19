@@ -31,6 +31,7 @@ router.get('/', checkToken, (req, res, next) => {
 
     let query = {},
         options = {};
+
     options.from = req.body.from || 0;
     options.limit = req.body.limit || 10;
 
