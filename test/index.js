@@ -9,10 +9,8 @@ describe('User Unitest', function () {
         MongoDBManager.clear('users');
         done();
     });
-
     it('should 建立一個使用者', UserSpecs.createUserSuccess);
-    it('should 缺少Facebook ID 建立使用者失敗');
-    it('should 會員登入取得驗證Token');
+    it('should 會員登入取得驗證Token', UserSpecs.userLogin);
     it('should 取回會員列表');
     it('should 取回會員詳情');
 });

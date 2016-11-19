@@ -4,5 +4,10 @@
         "nickname": "Tomas",
         "logo": "http://20dollarlogo.com/wp-content/uploads/2016/08/Logo_TV_2015.png",
         "fb_id": "fsdafashj3oieuofklas;flk"
+    },
+    "userWithoutFBID": {
+        "socket_id": "fjhlkvnasrupo23rljdsflasd",
+        "nickname": "Tomas2",
+        "logo": "http://20dollarlogo.com/wp-content/uploads/2016/08/Logo_TV_2015.png"
     }
 }
