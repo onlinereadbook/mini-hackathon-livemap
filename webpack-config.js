@@ -24,7 +24,7 @@ module.exports = function (options) {
         case 'dev':
 
             entry.bundle = [
-                'webpack-dev-server/client?http://localhost',
+                'webpack-dev-server/client?http://localhost:8888',
                 'webpack/hot/only-dev-server',
                 './app/src/main'
             ];
