@@ -60,11 +60,11 @@ module.exports = function (options) {
             );
 
             plugins.push(
-                // new HtmlWebpackPlugin({
-                //     filename : 'index.html',
-                //     template : 'app/index.html',
-                //     //favicon : 'app/favicon.ico'
-                // }),
+                new HtmlWebpackPlugin({
+                    filename: 'index.html',
+                    template: 'app/index.html',
+                    //favicon : 'app/favicon.ico'
+                }),
                 new ExtractTextPlugin('assets/styles/[name].css'),
                 new webpack.optimize.UglifyJsPlugin(),
                 new webpack.optimize.DedupePlugin(),
