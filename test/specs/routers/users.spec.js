@@ -27,7 +27,6 @@ export function userDetail(done) {
             if (err) {
                 done(err);
             } else {
-                console.log(res.body);
                 res
                     .body
                     .should
