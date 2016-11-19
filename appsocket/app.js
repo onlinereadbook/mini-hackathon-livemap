@@ -91,7 +91,7 @@ function checkRoomId(rooms, roomId) {
 class roomClass {
     constructor(params) {
 
-        this._MAX = 8;
+        this._MAX = 9;
         this._ID = params.id;
         this._MEMBERS = [];
 

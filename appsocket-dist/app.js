@@ -141,7 +141,7 @@ var roomClass = function () {
         (0, _classCallCheck3.default)(this, roomClass);
 
 
-        this._MAX = 8;
+        this._MAX = 9;
         this._ID = params.id;
         this._MEMBERS = [];
     }
