@@ -42,6 +42,7 @@ module.exports = function (options) {
             );
 
             break;
+        //case 'deploy':
         case 'deploy':
 
             entry.bundle = './app/src/main';
