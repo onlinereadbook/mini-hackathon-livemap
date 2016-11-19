@@ -13,6 +13,55 @@ chai.use(chaiHttp);
 
 server.set('unitest', true);
 
+let fb_id = null;
+
+export function userDetail(done) {
+    const query = {};
+
+    chai
+        .request(server)
+        .get(`/users/${fb_id}`)
+        .set('token', Fakerdata.token)
+        .send(query)
+        .end((err, res) => {
+            if (err) {
+                done(err);
+            } else {
+                console.log(res.body);
+                res
+                    .body
+                    .should
+                    .have
+                    .property('user');
+                res
+                    .body
+                    .user
+                    .should
+                    .have
+                    .property('_id');
+                res
+                    .body
+                    .user
+                    .should
+                    .have
+                    .property('nickname');
+                res
+                    .body
+                    .user
+                    .should
+                    .have
+                    .property('fb_id');
+                res
+                    .body
+                    .user
+                    .should
+                    .have
+                    .property('socket_id');
+                done();
+            }
+        });
+}
+
 export function userList(done) {
     const query = {};
 
@@ -34,6 +83,11 @@ export function userList(done) {
                     .body
                     .users
                     .map(user => {
+
+                        if (_.isNull(fb_id)) {
+                            fb_id = user.fb_id;
+                        }
+
                         user
                             .should
                             .have
