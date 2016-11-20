@@ -1,1 +1,0 @@
-{"version":3,"sources":["../../appsocket/routers/index.js"],"names":["rooms","users"],"mappings":";;;;;;AAAA;;;;AACA;;;;;;kBAEe;AACXA,0BADW;AAEXC;AAFW,C","file":"index.js","sourcesContent":["import rooms from './rooms';\nimport users from './users';\n\nexport default {\n    rooms,\n    users,\n}"]}

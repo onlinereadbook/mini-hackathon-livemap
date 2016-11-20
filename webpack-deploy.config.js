@@ -1,4 +1,4 @@
 module.exports = require('./webpack-config')({
-    outputpath: './appsocket-dist/dist',
+    outputpath: './dist',
     status: 'deploy'
 });

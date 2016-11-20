@@ -1,0 +1,1 @@
+{"version":3,"sources":["../../server/routers/rooms.js"],"names":["router","Router"],"mappings":";;;;;;AAAA;;;;;;AAEA,IAAMA,SAAS,kBAAQC,MAAR,EAAf;;kBAEeD,M","file":"rooms.js","sourcesContent":["import express from 'express';\n\nconst router = express.Router();\n\nexport default router"]}

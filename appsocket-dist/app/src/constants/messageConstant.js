@@ -1,1 +1,0 @@
-export const ADD_GLOBAL_MESSAGE = 'ADD_GLOBAL_MESSAGE';

@@ -1,1 +1,0 @@
-{"version":3,"sources":["../appsocket/config.js"],"names":["host","port","dbName"],"mappings":";;;;;AAAO,IAAMA,sBAAO,cAAb;AACA,IAAMC,sBAAO,KAAb;AACA,IAAMC,0BAAS,SAAf","file":"config.js","sourcesContent":["export const host = '45.33.73.179';\nexport const port = 27017;\nexport const dbName = 'livemap'"]}

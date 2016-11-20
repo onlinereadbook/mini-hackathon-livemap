@@ -24,7 +24,7 @@ module.exports = function (options) {
         case 'dev':
 
             entry.bundle = [
-                'webpack-dev-server/client?http://localhost:3000',
+                'webpack-dev-server/client?http://localhost:8888',
                 'webpack/hot/only-dev-server',
                 './app/src/main'
             ];
@@ -45,7 +45,7 @@ module.exports = function (options) {
         //case 'deploy':
         case 'deploy':
 
-            entry.bundle = './app/src/main';
+            entry.bundle = './frontend/src/main.js';
 
             loaders.push(
                 { test: /\.scss$/, loader: ExtractTextPlugin.extract('style', 'css!postcss!sass?includePaths[]=' + path.resolve(__dirname, './node_modules/compass-mixins/lib')) },
@@ -56,13 +56,13 @@ module.exports = function (options) {
                 { test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/, loader: "url-loader" },
                 { test: /\.eot(\?v=\d+\.\d+\.\d+)?$/, loader: "url-loader" },
                 { test: /\.svg(\?v=\d+\.\d+\.\d+)?$/, loader: "url-loader" },
-                { test: /\.(js|jsx)$/, loader: 'babel', include: path.join(__dirname, 'app/src'), query: { presets: ['es2015', 'react', 'stage-2'] } }
+                { test: /\.(js|jsx)$/, loader: 'babel', include: path.join(__dirname, 'app/frontend'), query: { presets: ['es2015', 'react', 'stage-2'] } }
             );
 
             plugins.push(
                 new HtmlWebpackPlugin({
                     filename: 'index.html',
-                    template: 'app/index.html',
+                    template: './frontend/index.html',
                     //favicon : 'app/favicon.ico'
                 }),
                 new ExtractTextPlugin('assets/styles/[name].css'),
@@ -89,7 +89,7 @@ module.exports = function (options) {
         postcss: [autoprefixer, csswring],
         resolve: resolve,
         plugins: plugins,
-        //devtool: 'cheap-eval-source-map'
+         devtool: 'cheap-eval-source-map'
 
     }
 }
