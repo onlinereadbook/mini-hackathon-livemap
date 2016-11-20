@@ -2,7 +2,7 @@
  * @flow
  */
 import * as UserSpecs from './specs/routers/users.spec';
-import MongoDBManager from '../appsocket/utils/mongoManager';
+import MongoDBManager from '../server/utils/mongoManager';
 import data from './data.json';
 
 describe('User Unitest', function () {

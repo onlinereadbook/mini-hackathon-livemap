@@ -3,7 +3,7 @@
  */
 import chai from 'chai';
 import chaiHttp from 'chai-http';
-import server from '../../../appsocket/server';
+import server from '../../../server/server';
 import should from 'should';
 import moment from 'moment';
 import Fakerdata from '../../data.json';

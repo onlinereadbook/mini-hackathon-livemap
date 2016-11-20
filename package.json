@@ -17,7 +17,7 @@
     "heroku": "npm run build-backend && git add . && git commit -m deploy && git push",
     "dev:front": "webpack-dev-server --config webpack-dev-server.config.js --port 3333 --hot --devtool eval --progress --colors --content-base app ",
     "flow": "flow; test $? -eq 0 -o $? -eq 2",
-    "test:appsocket": "Unitest=true mocha --compilers js:babel-core/register"
+    "test:server": "Unitest=true mocha --compilers js:babel-core/register"
   },
   "keywords": [],
   "author": "mini-hackathon",
