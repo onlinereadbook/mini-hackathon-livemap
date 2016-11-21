@@ -7,7 +7,6 @@
     "node": "6.9.1"
   },
   "scripts": {
-
     "clean": "rm -rf ./dist",
     "dev": "DEV=true nodemon ./dist/app.js --exec babel-node",
     "build-frontend": "webpack -p --config webpack-deploy.config.js --progress --colors",
@@ -16,9 +15,8 @@
     "server": "npm run build-frontend && npm run build-backend && npm start",
     "heroku": "npm run build-frontend && npm run build-backend && git add . && git commit -m deploy && git push",
     "dev:front": "webpack-dev-server --config webpack-dev-server.config.js --port 8888 --hot --devtool eval --progress --colors --content-base app ",
-    "flow": "flow; test $? -eq 0 -o $? -eq 2"
+    "flow": "flow; test $? -eq 0 -o $? -eq 2",
     "test:server": "Unitest=true mocha --compilers js:babel-core/register"
-
   },
   "keywords": [],
   "author": "mini-hackathon",
@@ -79,13 +77,12 @@
   "devDependencies": {
     "chai": "^3.5.0",
     "chai-http": "^3.0.0",
-    "mocha": "^3.1.2",
-    "morgan": "^1.7.0",
-    "should": "^11.1.1",
-    "source-map-loader": "^0.1.5",
     "eslint": "^3.8.1",
     "flow-bin": "^0.34.0",
+    "mocha": "^3.1.2",
+    "morgan": "^1.7.0",
     "nodemon": "^1.11.0",
+    "should": "^11.1.1",
     "source-map-loader": "^0.1.5",
     "webpack-dev-server": "^1.14.1",
     "webpack-hot-middleware": "^2.13.2"
