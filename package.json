@@ -11,7 +11,7 @@
     "build-frontend": "webpack -p --config webpack-deploy.config.js --progress --colors",
     "build-backend": "babel ./server -s --presets=latest --plugins=transform-runtime -d ./dist",
     "start": "node ./dist/app.js",
-    "heroku": "npm run build-backend && git add . && git commit -m deploy && git push",
+    "heroku": "npm run build-frontend && npm run build-backend && git add . && git commit -m deploy && git push",
     "dev:front": "webpack-dev-server --config webpack-dev-server.config.js --port 8888 --hot --devtool eval --progress --colors --content-base app ",
     "flow": "flow; test $? -eq 0 -o $? -eq 2"
   },
