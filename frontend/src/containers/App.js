@@ -137,7 +137,7 @@ class App extends Component {
     componentDidMount() {
         const {messageAction, roomAction} = this.props;
 
-        socket.on('globalmessage', function(data) {
+        socket.on('globalmessage', function (data) {
             messageAction.addGlobalMessage(JSON.stringify(data));
             //    console.log(roomsMessage);
         });

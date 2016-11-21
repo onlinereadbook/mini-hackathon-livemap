@@ -7,12 +7,12 @@
     "node": "6.9.1"
   },
   "scripts": {
-    "dev": "DEV=true nodemon ./livemap/app.js --exec babel-node",
+    "dev": "DEV=true nodemon ./dist/app.js --exec babel-node",
     "build-frontend": "webpack -p --config webpack-deploy.config.js --progress --colors",
     "build-backend": "babel ./server -s --presets=latest --plugins=transform-runtime -d ./dist",
-    "start": "node ./livemap-dist/app.js",
+    "start": "node ./dist/app.js",
     "heroku": "npm run build-backend && git add . && git commit -m deploy && git push",
-    "dev:front": "webpack-dev-server --config webpack-dev-server.config.js --port 3333 --hot --devtool eval --progress --colors --content-base app ",
+    "dev:front": "webpack-dev-server --config webpack-dev-server.config.js --port 8888 --hot --devtool eval --progress --colors --content-base app ",
     "flow": "flow; test $? -eq 0 -o $? -eq 2"
   },
   "keywords": [],
@@ -23,6 +23,7 @@
     "babel-cli": "^6.18.0",
     "babel-core": "^6.18.2",
     "babel-loader": "^6.2.3",
+    "babel-plugin-transform-class-properties": "^6.19.0",
     "babel-plugin-transform-flow-strip-types": "^6.18.0",
     "babel-plugin-transform-runtime": "^6.15.0",
     "babel-polyfill": "^6.9.1",
