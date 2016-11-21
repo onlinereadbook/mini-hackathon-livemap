@@ -1,15 +1,10 @@
 /**
  * @flow
  */
-import Express from 'express';
 import httpModule from 'http';
 import socketIO from 'socket.io';
-import cors from 'cors';
-import multipartyMiddleware from 'connect-multiparty';
-import bodyParser from 'body-parser';
 import _ from 'lodash';
-import logger from 'morgan';
-import routers from './routers';
+import app from './server';
 import path from 'path';
 import webpack from 'webpack';
 //import config from '../webpack-dev-server.config';
@@ -17,7 +12,6 @@ import config from '../webpack-deploy.config';
 
 const randomstring = require("randomstring");
 
-const app = Express();
 const http = httpModule.Server(app);
 const io = socketIO(http);
 const compiler = webpack(config);
@@ -41,16 +35,17 @@ app.use(bodyParser.json())
 app.use('/rooms', routers.rooms);
 app.use('/users', routers.users);
 
-app.get('/chatroom', function (req, res) {
+app.get('/chatroom', function(req, res) {
     res.sendFile(__dirname + '/index.html');
 });
 
 app.use(Express.static(path.join(__dirname, './')));
 
-app.get('/', function (req, res) {
+app.get('/', function(req, res) {
     //res.sendFile(path.join(__dirname, '../app/index.html'));
     res.sendFile(path.join(__dirname, 'index.html'));
 });
+
 
 function DisconnectRoom(rooms, socket) {
     const roomId = socket.id;
@@ -106,12 +101,16 @@ class roomClass {
     addMember(user) {
         return new Promise((resolve, reject) => {
             let error = null;
-            this._MEMBERS.map(u => {
-                if (u.id === user.id) {
-                    reject(new Error('使用者已存在'));
-                }
-            });
-            this._MEMBERS.push(user);
+            this
+                ._MEMBERS
+                .map(u => {
+                    if (u.id === user.id) {
+                        reject(new Error('使用者已存在'));
+                    }
+                });
+            this
+                ._MEMBERS
+                .push(user);
 
             resolve();
         });
@@ -128,22 +127,18 @@ class roomClass {
 
 let rooms = [];
 
-
 var user_count = 0;
 
 //當新的使用者連接進來的時候
-io.on('connection', function (socket) {
+io.on('connection', function(socket) {
 
-    socket.on('chat message', function (data) {
-        //console.log(data);
-        //appendMessage(data.username+":"+data.msg);
-        io.emit('globalmessage', data);
-    });
+    socket
+        .on('chat message', function(data) {
+            io.emit('globalmessage', data);
+        });
 
     //回傳個人的socket.id
-    socket.emit('getuid', {
-        uid: socket.id
-    });
+    socket.emit('getuid', { uid: socket.id });
 
     // TODO 建立房間
     socket.on('createroom', (data) => {
@@ -171,7 +166,9 @@ io.on('connection', function (socket) {
             socket.emit('errorStatus', checkResult.error);
         } else {
 
-            checkResult.targetRoom.addMember(socket)
+            checkResult
+                .targetRoom
+                .addMember(socket)
                 .then(() => {
                     socket.join(req.roomId);
 
@@ -179,7 +176,8 @@ io.on('connection', function (socket) {
                         status: 200,
                         message: `使用者${socket.id}已加入成功`
                     });
-                }).catch(error => {
+                })
+                .catch(error => {
                     socket.emit('error', {
                         status: 404,
                         message: error.message
@@ -196,7 +194,9 @@ io.on('connection', function (socket) {
         if (checkResult.error) {
             socket.emit('errorStatus', checkResult.error);
         } else {
-            checkResult.targetRoom.removeMember(socket);
+            checkResult
+                .targetRoom
+                .removeMember(socket);
             socket.leave(req.roomId);
             socket.emit('success', {
                 status: 200,
@@ -213,7 +213,9 @@ io.on('connection', function (socket) {
         if (checkResult.error) {
             socket.emit('errorStatus', checkResult.error);
         } else {
-            io.to(req.roomId).emit('localmessage', req.params);
+            io
+                .to(req.roomId)
+                .emit('localmessage', req.params);
         }
     });
 
@@ -224,32 +226,14 @@ io.on('connection', function (socket) {
     });
 
     //left
-    // socket.on('disconnect', function () {
-    //     DisconnectRoom(rooms, socket.id);
-    //     io.emit('user left', {
-    //         username: socket.username
-    //     });
-    // });
-
-
-});
-
-//Error Handler
-app.use((error, req, res, next) => {
-    const status = error.status || 500;
-    res.status(status).json({
-        message: error.message
+    socket.on('disconnect', function() {
+        // DisconnectRoom(rooms, socket.id); io.emit('user left', {username:
+        // socket.username});
     });
 });
 
-
 let port = process.env.PORT || 3000;
 //指定port
-http.listen(port, function () {
+http.listen(port, function() {
     console.log('listening on *:', port);
 });
-
-//Nodejs 奇怪的錯誤防止Process 死掉
-process.on('uncaughtException', function (err) {
-    console.log(err);
-})

@@ -1,0 +1,60 @@
+{
+    "user1": {
+        "socket_id": "fdsafadsfhjkvkl3289047028940",
+        "nickname": "Tomas",
+        "logo": "http://20dollarlogo.com/wp-content/uploads/2016/08/Logo_TV_2015.png",
+        "fb_id": "fsdafashj3oieuofklas;flk"
+    },
+    "userWithoutFBID": {
+        "socket_id": "fjhlkvnasrupo23rljdsflasd",
+        "nickname": "Tomas2",
+        "logo": "http://20dollarlogo.com/wp-content/uploads/2016/08/Logo_TV_2015.png"
+    },
+    "users": [{
+        "socket_id": "3123121",
+        "nickname": "Tomas1",
+        "logo": "http://20dollarlogo.com/wp-content/uploads/2016/08/Logo_TV_2015.png",
+        "fb_id": "fdsfsadfsgaverwrftewfsdsdfasd"
+    }, {
+        "socket_id": "rfvaer13e12312",
+        "nickname": "Tomas2",
+        "logo": "http://20dollarlogo.com/wp-content/uploads/2016/08/Logo_TV_2015.png",
+        "fb_id": "fasdvavssdfqwer"
+    }, {
+        "socket_id": "3123123dfasfasd",
+        "nickname": "Tomas3",
+        "logo": "http://20dollarlogo.com/wp-content/uploads/2016/08/Logo_TV_2015.png",
+        "fb_id": "bvasvdsfenhjadgfdfasdfas"
+    }, {
+        "socket_id": "fdsabvastyaqmnadfgas",
+        "nickname": "Tomas4",
+        "logo": "http://20dollarlogo.com/wp-content/uploads/2016/08/Logo_TV_2015.png",
+        "fb_id": "fasvassrewfgewr"
+    }, {
+        "socket_id": "vsaassedrtfavdsaf",
+        "nickname": "Tomas5",
+        "logo": "http://20dollarlogo.com/wp-content/uploads/2016/08/Logo_TV_2015.png",
+        "fb_id": "vasDFAVFDSFDASFSADfdg"
+    }, {
+        "socket_id": "rfvaer13vasfdaswfwefe12312",
+        "nickname": "Tomas7",
+        "logo": "http://20dollarlogo.com/wp-content/uploads/2016/08/Logo_TV_2015.png",
+        "fb_id": "vasdfasdfasdfasdfd"
+    }, {
+        "socket_id": "vbfdshnbdfgahtregterat",
+        "nickname": "Tomas8",
+        "logo": "http://20dollarlogo.com/wp-content/uploads/2016/08/Logo_TV_2015.png",
+        "fb_id": "fadsfsagdfastrtgertreter"
+    }, {
+        "socket_id": "vbndfhdfasfgadsfasdfs",
+        "nickname": "Tomas9",
+        "logo": "http://20dollarlogo.com/wp-content/uploads/2016/08/Logo_TV_2015.png",
+        "fb_id": "fsavaertgdfasgasdf"
+    }, {
+        "socket_id": "vbdcasvwdartfwerwerwe",
+        "nickname": "Tomas10",
+        "logo": "http://20dollarlogo.com/wp-content/uploads/2016/08/Logo_TV_2015.png",
+        "fb_id": "fasdfawwerwfgdasfds"
+    }],
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzb2NrZXRfaWQiOiJmZHNhZmFkc2Zoamt2a2wzMjg5MDQ3MDI4OTQwIiwiZmJfaWQiOiJmc2RhZmFzaGozb2lldW9ma2xhcztmbGsiLCJfaWQiOiI1ODMwNzI2YTliM2VmZDMzOTU2MjYwY2UiLCJuaWNrbmFtZSI6IlRvbWFzIiwiaWF0IjoxNDc5NTcwMDI3fQ.pVPwDJo0fLT_6faJ8afTws6nXWwWwvgYUm6L0ahTk04 "
+}
