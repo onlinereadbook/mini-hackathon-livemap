@@ -13,7 +13,8 @@
     "build-backend": "babel ./server -s --presets=latest --plugins=transform-runtime -d ./dist",
     "start": "node ./dist/app.js",
     "server": "npm run build-frontend && npm run build-backend && npm start",
-    "heroku": "npm run build-frontend && npm run build-backend && git add . && git commit -m deploy && git push",
+    "heroku": "npm run build-frontend && npm run build-backend && git add . && git push",
+    "deploy": "npm run build-frontend && npm run build-backend && npm start",
     "dev:front": "webpack-dev-server --config webpack-dev-server.config.js --port 8888 --hot --devtool eval --progress --colors --content-base app ",
     "flow": "flow; test $? -eq 0 -o $? -eq 2",
     "test:server": "Unitest=true mocha --compilers js:babel-core/register"
