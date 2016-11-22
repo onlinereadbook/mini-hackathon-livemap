@@ -25,7 +25,9 @@ import ProfileMenu from '../components/ProfileMenu'
 import Dialog from '../components/Dialog'
 import BadgeExampleSimple from '../components/IconButton'
 //import _ from 'lodash'
-var socket = io('http://localhost:3000');
+var port = process.env.PORT || 8888;
+
+var socket = io('http://localhost:' + port);
 //var name = prompt("請輸入暱稱", "guest");
 // if (name == "" || name == null) {
 //     name = "guest";

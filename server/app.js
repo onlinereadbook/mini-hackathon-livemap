@@ -132,10 +132,10 @@ let rooms = [];
 var user_count = 0;
 
 //當新的使用者連接進來的時候
-io.on('connection', function(socket) {
+io.on('connection', function (socket) {
 
     socket
-        .on('chat message', function(data) {
+        .on('chat message', function (data) {
             io.emit('globalmessage', data);
         });
 
@@ -228,15 +228,15 @@ io.on('connection', function(socket) {
     });
 
     //left
-    socket.on('disconnect', function() {
+    socket.on('disconnect', function () {
         // DisconnectRoom(rooms, socket.id); io.emit('user left', {username:
         // socket.username});
     });
 });
 
-let port = process.env.PORT || 3000;
+let port = process.env.PORT || 8888;
 //指定port
 
-http.listen(port, function() {
+http.listen(port, function () {
     console.log('listening on *:', port);
 });
