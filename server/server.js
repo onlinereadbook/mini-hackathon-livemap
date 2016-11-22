@@ -16,26 +16,27 @@ if (process.env.DEV === 'true') {
     app.use(logger('dev'));
     app.set('DEBUG', true);
 }
+app.use(bodyParser.urlencoded({ extended: true }));
 
-app.use(bodyParser.urlencoded());
+//app.use(bodyParser.urlencoded());
 app.use(multipartyMiddleware());
 app.use(bodyParser.json())
 
 app.get('/', function (req, res) {
-    res.sendFile(path.join(__dirname, '../frontend/index.html'));
+    res.sendFile(path.join(__dirname, './index.html'));
 });
 
 app.use('/rooms', routers.rooms);
 app.use('/users', routers.users);
 
-app.use(Express.static(path.join(__dirname, '../')));
+app.use(Express.static(path.join(__dirname, './')));
 
 //Error Handler
 app.use((error, req, res, next) => {
     const status = error.status || 500;
     res
         .status(status)
-        .json({message: error.message});
+        .json({ message: error.message });
 });
 
 //預期外的錯誤，防止crash

@@ -10,6 +10,7 @@ import webpack from 'webpack';
 //import config from '../webpack-dev-server.config';
 import config from '../webpack-deploy.config';
 
+
 const randomstring = require("randomstring");
 
 const http = httpModule.Server(app);
@@ -19,10 +20,11 @@ const compiler = webpack(config);
 if (process.env.DEV === 'true') {
     app.use(logger('dev'));
 }
+console.log('test2');
 
-app.use(bodyParser.urlencoded());
-app.use(multipartyMiddleware());
-app.use(bodyParser.json())
+// app.use(bodyParser.urlencoded());
+// app.use(multipartyMiddleware());
+// app.use(bodyParser.json())
 
 // if (app.get('env') === 'development') {
 //     app.use(require('webpack-dev-middleware')(compiler, {
@@ -32,19 +34,19 @@ app.use(bodyParser.json())
 
 //     app.use(require('webpack-hot-middleware')(compiler));
 // }
-app.use('/rooms', routers.rooms);
-app.use('/users', routers.users);
+// app.use('/rooms', routers.rooms);
+// app.use('/users', routers.users);
 
-app.get('/chatroom', function(req, res) {
-    res.sendFile(__dirname + '/index.html');
-});
+// app.get('/chatroom', function(req, res) {
+//     res.sendFile(__dirname + '/index.html');
+// });
 
-app.use(Express.static(path.join(__dirname, './')));
+// app.use(Express.static(path.join(__dirname, './')));
 
-app.get('/', function(req, res) {
-    //res.sendFile(path.join(__dirname, '../app/index.html'));
-    res.sendFile(path.join(__dirname, 'index.html'));
-});
+// app.get('/', function(req, res) {
+//     //res.sendFile(path.join(__dirname, '../app/index.html'));
+//     res.sendFile(path.join(__dirname, 'index.html'));
+// });
 
 
 function DisconnectRoom(rooms, socket) {
@@ -234,6 +236,7 @@ io.on('connection', function(socket) {
 
 let port = process.env.PORT || 3000;
 //指定port
+
 http.listen(port, function() {
     console.log('listening on *:', port);
 });
