@@ -27,7 +27,9 @@ import BadgeExampleSimple from '../components/IconButton'
 //import _ from 'lodash'
 var port = process.env.PORT || 8888;
 
+
 var socket = io('http://localhost:' + port);
+//var socket = io('http://www.gian.tw:' + port);
 //var name = prompt("請輸入暱稱", "guest");
 // if (name == "" || name == null) {
 //     name = "guest";
