@@ -25,10 +25,11 @@ import ProfileMenu from '../components/ProfileMenu'
 import Dialog from '../components/Dialog'
 import BadgeExampleSimple from '../components/IconButton'
 //import _ from 'lodash'
-var port = process.env.PORT || 8888;
+//var port = process.env.PORT || 8888;
+var port = process.env.PORT || 8889;
 
 
-var socket = io('http://localhost:' + port);
+var socket = io('https://www.gian.tw:' + port, { secure: true });
 //var socket = io('http://www.gian.tw:' + port);
 //var name = prompt("請輸入暱稱", "guest");
 // if (name == "" || name == null) {
@@ -99,7 +100,7 @@ const style = {
         },
         content: {
             width: '258px',
-            height: '100px',
+            height: '150px',
             margin: 'auto auto',
             backgroundColor: 'black',
             opacity: 0.8
@@ -343,9 +344,11 @@ fbLogin(response) {
         role: 'FB',
         message: `大家好，我是${response.name}！`
     }
-
+    console.log('tset1');
     profileAction.initProfile(profile);
+    console.log('tset2');
     this.watchPosition(profile);
+    console.log('tset3');
     this.setState({
         isLogin: true
     });

@@ -2,7 +2,7 @@ import React from 'react'
 import GoogleMap from 'google-map-react'
 
 import Marker from './Marker/Marker.js'
-const API_KEY = { key: 'AIzaSyCy5iDWaadnc5waobnsdyQf5dM2NLrSefY' }
+const API_KEY = { key: 'AIzaSyBdwNIUnVGKhqKKKlwoE_hczW85Ikdfx20' }
 const style = {
     map: {
         borderRadius: '10px 0 0 10px',
@@ -23,6 +23,7 @@ const Map = ({center, zoom, markers}) => {
         </GoogleMap >
     )
 }
+
 
 
 

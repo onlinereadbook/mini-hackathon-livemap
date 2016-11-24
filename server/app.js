@@ -2,6 +2,8 @@
  * @flow
  */
 import httpModule from 'http';
+import https from 'https';
+
 import socketIO from 'socket.io';
 import _ from 'lodash';
 import app from './server';
@@ -9,6 +11,7 @@ import path from 'path';
 import webpack from 'webpack';
 //import config from '../webpack-dev-server.config';
 import config from '../webpack-deploy.config';
+import ssl from './sslLicense';
 
 
 const randomstring = require("randomstring");
@@ -239,4 +242,13 @@ let port = process.env.PORT || 8888;
 
 http.listen(port, function () {
     console.log('listening on *:', port);
+});
+
+//var httpServer = http.createServer(app);
+var httpsServer = https.createServer(ssl.options, app);
+
+httpsServer.listen(8889, function () {
+
+    console.log('ssl listening on *:', 8889);
+
 });
